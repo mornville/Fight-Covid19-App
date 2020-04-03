@@ -56,7 +56,8 @@ class _LandingScreenState extends State<LandingScreen> {
                             padding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                             onPressed: () {
-                              //logic
+                              Navigator.pushNamed(context, '/registration');
+
                             },
                             child: Text("I'm a New User",
                                 textAlign: TextAlign.center,
