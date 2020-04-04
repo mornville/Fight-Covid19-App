@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_browser/flutter_web_browser.dart';
+
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
@@ -25,6 +27,11 @@ class _LandingScreenState extends State<LandingScreen> {
       ),
     ) ??
         false;
+  }
+
+  openBrowserTab(url) async {
+    await FlutterWebBrowser.openWebPage(
+        url: url, androidToolbarColor: Colors.black);
   }
 
   @override
@@ -96,7 +103,7 @@ class _LandingScreenState extends State<LandingScreen> {
                               minWidth: 300.0,
                               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/registration');
+                              openBrowserTab('https://covid19.thepodnet.com/accounts/signup/');
                               },
                               child: Text("Create a New Account",
                                   textAlign: TextAlign.center,
