@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
-
+import 'package:flutter/services.dart';
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
@@ -36,7 +36,10 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -45,7 +48,7 @@ class _LandingScreenState extends State<LandingScreen> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/landing.jpg'), fit: BoxFit.cover ),
+                    image: AssetImage('assets/back.jpg'), fit: BoxFit.cover ),
               ),
               child: null /* add child content here */,
             ),
@@ -55,42 +58,11 @@ class _LandingScreenState extends State<LandingScreen> {
                   height: 100.0,
                 ),
                 Expanded(
-                  flex: 1,
-                  child: Center(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            child: Padding(
-                              child: Image.asset(
-                                'assets/logo.png',
-                                height: 100.0,
-                              ),
-                              padding: EdgeInsets.only(
-                                  top: 8.0, left: 0.0, right: 8.0, bottom: 10.0),
-                            ),
-                          ),
-                          Text(
-                            'Health Of India',
-                            style: TextStyle(
-                                fontSize: 35.0,
-                                color: Colors.white,
-                                fontFamily: 'Oswald'),
-                          ),
-                          SizedBox(
-                            height: 2.0,
-                          ),
-                          Text(
-                            'Let\'s fight Covid19 together. ',
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                                fontFamily: 'Poppins'),
-                          ),
-                        ],
-                      )),
+                  flex: 2,
+                  child: Container(),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex:1 ,
                   child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
