@@ -248,7 +248,7 @@ class Covid19API {
 
   // Create Health Entry
   Future<Map> healthEntry(
-      {String username,
+      {int user_id,
       bool fever,
       bool cough,
       bool difficult_breathing,
@@ -259,9 +259,8 @@ class Covid19API {
     try {
       Map<String, String> args = Map();
 
-      // If username is present
-      if (username != null) {
-        args.addAll({"username": username});
+      if (user_id != null) {
+        args.addAll({"user_id": user_id.toString()});
       }
 
       if (fever != null) {
@@ -289,9 +288,7 @@ class Covid19API {
       var resp = await client.post("$SERVER_URI/api/healthentry/",
           headers: {"Authorization": "Token ${this.token}"}, body: args);
       Map data = jsonDecode(resp.body);
-      if (
-          data.containsKey("username") &&
-          data.containsKey("fever") &&
+      if (data.containsKey("fever") &&
           data.containsKey("cough") &&
           data.containsKey("difficult_breathing") &&
           data.containsKey("latitude")) {
