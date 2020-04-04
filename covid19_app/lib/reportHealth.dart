@@ -28,7 +28,7 @@ class _ReportHealthState extends State<ReportHealth> {
             _lat = _currentPosition.latitude.toString();
             _controllerLat.text = _lat;
             _long = _currentPosition.longitude.toString();
-            _controllerLong.text = _lat;
+            _controllerLong.text = _long;
             print(_currentPosition);
           });
         }
