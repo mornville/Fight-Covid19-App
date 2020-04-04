@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   http:
   shared_preferences: ^0.5.6+1
+  url_launcher: ^5.4.2
+
   provider:
 
 
@@ -90,3 +92,10 @@ flutter:
     - family: Oswald
       fonts:
         - asset: fonts/Oswald-VariableFont_wght.ttf
+
+  assets:
+    - assets/logo.png
+    - assets/menu.png
+    - assets/trail.png
+    - assets/user.png
+    - assets/address.png
