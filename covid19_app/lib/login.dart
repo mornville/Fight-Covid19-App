@@ -131,7 +131,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop:(){
+          Navigator.pushReplacementNamed(context, '/landingScreen')
+        }
+          ,
+        child:Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -145,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
             size: 30.0,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, '/landingScreen');
           },
         ),
         elevation: 0.0,
@@ -264,6 +269,6 @@ _submit()        ;                    },
             ),
           )
       ),
-    );
+    ));
   }
 }
