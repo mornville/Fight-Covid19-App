@@ -339,7 +339,7 @@ Future<void> main() async {
   print("Tring to login");
   await a.login("jaishriram157", "log14627");
   Map data = await a.coronaCases();
-  print(data);
+  print(data['info']['total']);
 
 
 }
