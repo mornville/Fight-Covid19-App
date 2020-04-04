@@ -79,7 +79,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 labelText: "Name",
                                 labelStyle: TextStyle(
                                     color: Colors.black54,
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Raleway',
                                     fontWeight: FontWeight.w500),
                                 fillColor: Colors.white,
 
@@ -107,7 +107,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 labelText: "Username",
                                 labelStyle: TextStyle(
                                     color: Colors.black54,
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Raleway',
                                     fontWeight: FontWeight.w500),
                                 fillColor: Colors.white,
 
@@ -135,7 +135,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   labelText: "Password",
                                   labelStyle: TextStyle(
                                       color: Colors.black54,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Raleway',
                                       fontWeight: FontWeight.w500),
                                   fillColor: Colors.white,
                                   suffixIcon: IconButton(
@@ -169,7 +169,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   labelText: "Confirm Password",
                                   labelStyle: TextStyle(
                                       color: Colors.black54,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Raleway',
                                       fontWeight: FontWeight.w500),
                                   fillColor: Colors.white,
 

@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: "Username",
                                 labelStyle: TextStyle(
                                     color: Colors.black54,
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Raleway',
                                     fontWeight: FontWeight.w500),
                                 fillColor: Colors.white,
 
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   labelText: "Password",
                                   labelStyle: TextStyle(
                                       color: Colors.black54,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Raleway',
                                       fontWeight: FontWeight.w500),
                                   fillColor: Colors.white,
                                   suffixIcon: IconButton(

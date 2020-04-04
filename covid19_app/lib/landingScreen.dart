@@ -59,7 +59,7 @@ class _LandingScreenState extends State<LandingScreen> {
                               Navigator.pushNamed(context, '/registration');
 
                             },
-                            child: Text("I'm a New User",
+                            child: Text("Create a New Account",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
@@ -81,7 +81,7 @@ class _LandingScreenState extends State<LandingScreen> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/login');
                             },
-                            child: Text("I'm a Registered User",
+                            child: Text("Login to My Account",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
