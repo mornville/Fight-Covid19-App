@@ -3,6 +3,37 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:covid19_app/api_wrapper.dart' as api;
 import 'package:shared_preferences/shared_preferences.dart';
+
+class Dialogs {
+  static Future<void> showLoadingDialog(
+      BuildContext context, GlobalKey key) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new WillPopScope(
+              onWillPop: () async => false,
+              child: SimpleDialog(
+                  key: key,
+                  backgroundColor: Colors.black54,
+                  children: <Widget>[
+                    Center(
+                      child: Column(children: [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Please Wait....",
+                          style: TextStyle(color: Colors.blueAccent),
+                        )
+                      ]),
+                    )
+                  ]));
+        });
+  }
+}
+
 class ReportHealth extends StatefulWidget {
   @override
   _ReportHealthState createState() => _ReportHealthState();
@@ -65,34 +96,9 @@ class _ReportHealthState extends State<ReportHealth> {
     selfQuarantine = false;
     difficultBreathing = false;
     fever = false;
-    _lat = 'null';
-    _long = 'null';
+    _lat = '0.0';
+    _long = '0.0';
     super.initState();
-  }
-  Future<void> _submitReport() async {
-
-    // Getting smitty api instance
-    print("inside preform logic method");
-
-    api.Covid19API a = api.Covid19API();
-    print('reportHealth');
-    var d = await a.healthStat();
-    print(d);
-    Map data = await a.healthEntry(username: _username,fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude: _lat, longitude: _long, difficult_breathing: difficultBreathing);
-    final error = data['info'];
-
-    if (data['status'] == 'success') {
-      _showDialog('Your Report has been submitted');
-      Navigator.pushNamed(context, '/dashboard');
-
-      }
-     else {
-      print("Unable to Create.");
-      print(error);
-
-      _showDialog(error.toString().replaceAll('[', ' ').replaceAll(']', ' ')??'Internal Error');
-
-    }
   }
 
   //submitForm
@@ -100,9 +106,42 @@ class _ReportHealthState extends State<ReportHealth> {
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();
-      _submitReport();
+      _submitReport(context);
     }
   }
+
+
+  Future<void> _submitReport(BuildContext context) async {
+    try {
+      Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      print("inside submit report logic");
+      final sharedPrefs = await SharedPreferences.getInstance();
+      var token = sharedPrefs.getString("token");
+      api.Covid19API a = api.Covid19API();
+      a.token = token;
+      print('reportHealth');
+      var d = await a.getCurrentUser();
+      print(d);
+      Map data = await a.healthEntry(user_id: 4,fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude:_lat, longitude: _long, difficult_breathing: difficultBreathing);
+      final error = data['info'];
+
+      if (data['status'] == 'success') {
+        print("Submission successful");
+        //Checking if the user is Admin or employee
+        Navigator.pop(context); //close the dialogue
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      } else {
+        print("Unable to Submit Data.");
+        Navigator.pop(context); //close the dialogue
+        _showDialog(error.toString().replaceAll('[', ' ').replaceAll(']', ' ')??'Internal Error');
+      }
+    } catch (error) {
+      print(error);
+    }
+    // Getting smitty api instance and shared_preference storage instance
+  }
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -144,30 +183,7 @@ class _ReportHealthState extends State<ReportHealth> {
                       child: Column(
                         children: [
 
-                          Material(
-                            elevation: 1.0,
-                            shadowColor: Colors.white,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                prefixIcon: Icon(Icons.account_circle),
-                                contentPadding: EdgeInsets.fromLTRB(
-                                    20.0, 10.0, 20.0, 10.0),
-                                labelText: "Username",
-                                labelStyle: TextStyle(
-                                    color: Colors.black54,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w500),
-                                fillColor: Colors.white,
 
-                                //fillColor: Colors.green
-                              ),
-                              validator: (val) => val.length <= 1
-                                  ? '\This field Can\'t be Empty\n'
-                                  : null,
-                              onSaved: (val) => _username = val,
-                            ),
-                          ),
 
                           SizedBox(height: 30.0,),
                           Text('Please allow us to know your location. This might help us forecast future outbreaks. To know ypur location click below.', style: TextStyle(color: Colors.black54,fontFamily: 'Raleway', fontSize: 14.0, fontWeight: FontWeight.w600),),
