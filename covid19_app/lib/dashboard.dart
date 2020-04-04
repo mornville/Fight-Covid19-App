@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:covid19_app/api_wrapper.dart' as api;
+
+
 
 class Dashboard extends StatefulWidget {
   @override
@@ -53,6 +56,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
 
+
+
+
   //logout
   Future<void> logout(BuildContext context) async {
     // remove token from shared prefs
@@ -67,6 +73,10 @@ class _DashboardState extends State<Dashboard> {
         url: url, androidToolbarColor: Colors.black);
   }
 
+  void initState() {
+    super.initState();
+
+  }
   //bottomDrawer
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
@@ -128,6 +138,11 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final Map data = ModalRoute.of(context).settings.arguments;
+    Map cases = data["cases"];
+
+
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -229,7 +244,7 @@ class _DashboardState extends State<Dashboard> {
                               fontWeight: FontWeight.w700),
                         ),
                         subtitle: Text(
-                          '3082',
+                          cases['confirmed']??'N/A',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 35.0,
@@ -287,7 +302,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '3434',
+                                      cases['deaths']??'N/A',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 23.0,
@@ -340,7 +355,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '27',
+                                      cases['deltaconfirmed']??'N/A',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 23.0,
@@ -400,7 +415,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '229',
+                                      cases['recovered']??'N/A',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 25.0,
@@ -439,7 +454,7 @@ class _DashboardState extends State<Dashboard> {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    'Crirical Cases',
+                                    'Active Cases',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontFamily: 'Poppins',
@@ -453,7 +468,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '0',
+                                      cases['active']??'N/A',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 25.0,
@@ -531,7 +546,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '6',
+                                      cases['totalPeople'].toString()??'N/A',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 25.0,
@@ -584,7 +599,7 @@ class _DashboardState extends State<Dashboard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '0',
+                                      cases['sickPeople'].toString(),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 25.0,

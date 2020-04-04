@@ -51,6 +51,7 @@ class Dialogs {
   }
 }
 class LoginScreen extends StatefulWidget {
+  Map cases = Map();
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -85,12 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
     print("Checking if the user is already logged in");
     if (token != null && token.isNotEmpty) {
       api.Covid19API a = api.Covid19API();
-
+      print("Already logged in");
       a.token = token;
-      var d = await a.getCurrentUser();
-      Navigator.pushReplacementNamed(context, '/dashboard');
+      Map data = await a.coronaCases();
+      Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
+        'cases':data['info']['total']
+      });
 
     }
+    print("Not logged in");
+
     sharedPrefs.remove("token");
   }
 
@@ -103,16 +108,19 @@ class _LoginScreenState extends State<LoginScreen> {
       final sharedPrefs = await SharedPreferences.getInstance();
       print("performing a login");
       Map data = await a.login(_email, _password);
-      var d = await a.getCurrentUser();
-      print(d);
+
       if (data['status'] == 'success') {
         print("Login successful");
         sharedPrefs.setString("token", a.token);
+        Map data = await a.coronaCases();
+        print(data);
         print("token stored");
         //Checking if the user is Admin or employee
         Navigator.pop(context); //close the dialogue
 
-        Navigator.pushReplacementNamed(context, '/dashboard');
+        Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
+          'cases':data['info']['total']
+        });
       } else {
         print("Unable to login.");
         Navigator.pop(context); //close the dialogue
