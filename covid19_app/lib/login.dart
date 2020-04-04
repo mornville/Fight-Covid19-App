@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'api_wrapper.dart' as api;
+import 'package:covid19_app/api_wrapper.dart' as api;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 Future<void> showDialogBox(BuildContext context, String text) {
   return showDialog<void>(
@@ -68,20 +67,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _togglePassword() {
     return passValue = !passValue;
   }
-  //Check if already logged in
-  Future<void> checkIfAlreadyLoggedIn() async {
-    final sharedPrefs = await SharedPreferences.getInstance();
-    var token = sharedPrefs.getString("token");
-    print("Checking if the user is already logged in");
-    if (token != null && token.isNotEmpty) {
-      final api.Covid19API api_instance =
-      Provider.of<api.Covid19API>(context, listen: false);
-      api_instance.token = token;
-      var d = await api_instance.getCurrentUser();
-      Navigator.pushNamed(context, '/dashboard');
-    }
-    sharedPrefs.remove("token");
-  }
 
 
   void _submit() {
@@ -92,21 +77,37 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+
+  //check if already logged in
+  Future<void> checkIfAlreadyLoggedIn() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    var token = sharedPrefs.getString("token");
+    print("Checking if the user is already logged in");
+    if (token != null && token.isNotEmpty) {
+      api.Covid19API a = api.Covid19API();
+
+      a.token = token;
+      var d = await a.getCurrentUser();
+      Navigator.pushReplacementNamed(context, '/dashboard');
+
+    }
+    sharedPrefs.remove("token");
+  }
+
   Future<void> _performLogin(BuildContext context) async {
     try {
       Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
       print("inside preform logic method");
-      final api.Covid19API sapi_instance =
-      Provider.of<api.Covid19API>(context, listen: false);
-      print(sapi_instance);
+      api.Covid19API a = api.Covid19API();
+
       final sharedPrefs = await SharedPreferences.getInstance();
       print("performing a login");
-      Map data = await sapi_instance.login(_email, _password);
-      var d = await sapi_instance.getCurrentUser();
-
+      Map data = await a.login(_email, _password);
+      var d = await a.getCurrentUser();
+      print(d);
       if (data['status'] == 'success') {
         print("Login successful");
-        sharedPrefs.setString("token", sapi_instance.token);
+        sharedPrefs.setString("token", a.token);
         print("token stored");
         //Checking if the user is Admin or employee
         Navigator.pop(context); //close the dialogue
@@ -125,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    checkIfAlreadyLoggedIn();
     super.initState();
   }
   @override
@@ -245,8 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/dashboard');
-                            },
+_submit()        ;                    },
                             child: Text("Login",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
