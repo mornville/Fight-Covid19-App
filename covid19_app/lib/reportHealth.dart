@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ReportHealth extends StatefulWidget {
   @override
@@ -9,7 +11,31 @@ class _ReportHealthState extends State<ReportHealth> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   String _username, _lat, _long;
+  final TextEditingController _controllerLat =  TextEditingController();
+  final TextEditingController _controllerLong =  TextEditingController();
   bool fever, cough, selfQuarantine, difficultBreathing;
+  Position _currentPosition;
+
+    _getCurrentLocation() {
+      final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+      geolocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        if (this.mounted){
+          setState((){
+            _currentPosition = position;
+            _lat = _currentPosition.latitude.toString();
+            _controllerLat.text = _lat;
+            _long = _currentPosition.longitude.toString();
+            _controllerLong.text = _lat;
+            print(_currentPosition);
+          });
+        }
+      }).catchError((e) {
+        print(e);
+      });
+    }
 
   void initState() {
     cough = false;
@@ -96,10 +122,21 @@ class _ReportHealthState extends State<ReportHealth> {
                           ),
 
                           SizedBox(height: 30.0,),
-                          Text('Please allow us to know your location. This might help us forecast future outbreaks.', style: TextStyle(color: Colors.black54,fontFamily: 'Raleway', fontSize: 14.0, fontWeight: FontWeight.w600),),
+                          Text('Please allow us to know your location. This might help us forecast future outbreaks. To know ypur location click below.', style: TextStyle(color: Colors.black54,fontFamily: 'Raleway', fontSize: 14.0, fontWeight: FontWeight.w600),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: FlatButton(
+                                  onPressed: (){
+                                    _getCurrentLocation();
 
-                          SizedBox(height: 10.0,),
-
+                                  },
+                                  child: Text('Know my Location', style: TextStyle(color: Colors.indigo, fontFamily: 'Raleway', fontWeight: FontWeight.w500),),
+                                ),
+                              ),
+                            ],
+                          ),
                           SizedBox(
                             height: 5.0,
                           ),
@@ -107,6 +144,7 @@ class _ReportHealthState extends State<ReportHealth> {
                             elevation: 1.0,
                             shadowColor: Colors.white,
                             child: TextFormField(
+                              controller: _controllerLat,
                               keyboardType: TextInputType.numberWithOptions(),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -134,6 +172,7 @@ class _ReportHealthState extends State<ReportHealth> {
                             elevation: 1.0,
                             shadowColor: Colors.white,
                             child: TextFormField(
+                              controller: _controllerLong,
                               keyboardType: TextInputType.numberWithOptions(),
 
                               decoration: InputDecoration(
@@ -159,17 +198,7 @@ class _ReportHealthState extends State<ReportHealth> {
                           SizedBox(
                             height: 5.0,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Container(
-                                child: FlatButton(
-                                  onPressed: (){},
-                                  child: Text('Know my Location', style: TextStyle(color: Colors.indigo, fontFamily: 'Raleway'),),
-                                ),
-                              ),
-                            ],
-                          ),
+
                           SizedBox(height: 10.0,),
 
 
@@ -278,7 +307,7 @@ SizedBox(
                           Material(
                             elevation: 1.0,
                             borderRadius: BorderRadius.circular(40.0),
-                            color: Color.fromRGBO(64,146,240 ,.3),
+                            color: Color.fromRGBO(64,146,240 ,1),
                             child: MaterialButton(
                               minWidth: 200.0,
                               padding:
