@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       home: landingScreen.LandingScreen(),
       routes: {
         '/login': (context) => loginScreen.LoginScreen(),
+        '/landingScreen': (context) => landingScreen.LandingScreen(),
         '/registration': (context) => regisScreen.RegistrationScreen(),
         '/dashboard' : (context) => dashboard.Dashboard(),
         '/reportHealth' : (context) => repHealth.ReportHealth()
