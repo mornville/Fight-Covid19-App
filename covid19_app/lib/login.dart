@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop:(){
-          Navigator.pushReplacementNamed(context, '/landingScreen')
+          Navigator.pushReplacementNamed(context, '/landingScreen');
         }
           ,
         child:Scaffold(
