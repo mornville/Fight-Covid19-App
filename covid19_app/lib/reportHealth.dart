@@ -129,7 +129,8 @@ class _ReportHealthState extends State<ReportHealth> {
         print("Submission successful");
         //Checking if the user is Admin or employee
         Navigator.pop(context); //close the dialogue
-        Navigator.pushReplacementNamed(context, '/dashboard');
+        Navigator.pop(context); //close the dialogue
+
       } else {
         print("Unable to Submit Data.");
         Navigator.pop(context); //close the dialogue
