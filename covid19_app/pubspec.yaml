@@ -29,6 +29,8 @@ dependencies:
   flutter_web_browser: ^0.11.0
 
   provider:
+  geolocator: ^5.1.3
+
 
 
 dev_dependencies:
