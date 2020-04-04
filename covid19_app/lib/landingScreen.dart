@@ -14,10 +14,7 @@ class _LandingScreenState extends State<LandingScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    'https://image.freepik.com/free-vector/worldwide-connection-blue-background-illustration-vector_53876-76810.jpg'),
-                fit: BoxFit.cover,
-              ),
+                image: AssetImage('assets/landing.jpg'), fit: BoxFit.cover ),
             ),
             child: null /* add child content here */,
           ),
