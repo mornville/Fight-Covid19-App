@@ -3,12 +3,97 @@ import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:covid19_app/api_wrapper.dart' as api;
 
+class Dialogs {
+  static Future<void> showLoadingDialog(
+      BuildContext context, GlobalKey key) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new WillPopScope(
+              onWillPop: () async => false,
+              child: SimpleDialog(
+                  key: key,
+                  backgroundColor: Colors.black54,
+                  children: <Widget>[
+                    Center(
+                      child: Column(children: [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Please Wait....",
+                          style: TextStyle(color: Colors.blueAccent),
+                        )
+                      ]),
+                    )
+                  ]));
+        });
+  }
+}
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
+  Future<void> showDialogBox(BuildContext context, String text) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Something went wrong"),
+          content: Text(text),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  Future<void> _getData(BuildContext context) async {
+    try {
+      Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      print("inside preform logic method");
+      api.Covid19API a = api.Covid19API();
+
+      final sharedPrefs = await SharedPreferences.getInstance();
+      var token = sharedPrefs.getString("token");
+      a.token = token;
+      Map data = await a.coronaCases();
+
+      if (data['status'] == 'success') {
+        print("Accessed Data");
+        sharedPrefs.setString("token", a.token);
+        Map data = await a.coronaCases();
+        print(data);
+        print("token stored");
+        //Checking if the user is Admin or employee
+        Navigator.pop(context); //close the dialogue
+
+        Navigator.pushReplacementNamed(context, '/stateData', arguments: {
+          'cases':data['info']
+        });
+      } else {
+        print("Unable to login.");
+        Navigator.pop(context); //close the dialogue
+        showDialogBox(context, data['info']);
+      }
+    } catch (error) {
+      print(error);
+    }
+    // Getting smitty api instance and shared_preference storage instance
+  }
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -493,6 +578,36 @@ class _DashboardState extends State<Dashboard> {
                     SizedBox(
                       height: 5.0,
                     ),
+//                    Card(
+//                      elevation: 10.0,
+//                      child: Padding(
+//                        padding: EdgeInsets.all(10.0),
+//                        child: ListTile(
+//                            title: Text(
+//                              'View State wise data',
+//                              style: TextStyle(
+//                                  color: Colors.black,
+//                                  fontSize: 20.0,
+//                                  fontWeight: FontWeight.w700),
+//                            ),
+//                            onTap: (){
+//                              _getData(context);
+//                            },
+//                            trailing: Padding(
+//                                child: Image.asset(
+//                                  'assets/link.png',
+//                                  height: 50.0,
+//                                ),
+//                                padding: EdgeInsets.only(
+//                                    top: 0.0,
+//                                    left: 0.0,
+//                                    right: 0.0,
+//                                    bottom: 0.0))),
+//                      ),
+//                    ),
+//                    SizedBox(
+//                      height: 5.0,
+//                    ),
                     Row(
                       children: <Widget>[
                         Container(
@@ -511,6 +626,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
+
                     Row(
                       children: <Widget>[
                         Expanded(

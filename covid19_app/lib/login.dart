@@ -113,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print("Login successful");
         sharedPrefs.setString("token", a.token);
         Map data = await a.coronaCases();
-        print(data);
         print("token stored");
         //Checking if the user is Admin or employee
         Navigator.pop(context); //close the dialogue

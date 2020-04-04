@@ -3,6 +3,7 @@ import 'landingScreen.dart' as landingScreen;
 import 'login.dart' as loginScreen;
 import 'registration.dart' as regisScreen;
 import 'dashboard.dart' as dashboard;
+import 'state.dart' as state;
 import 'reportHealth.dart' as repHealth;
 void main() => runApp(MyApp());
 
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         '/landingScreen': (context) => landingScreen.LandingScreen(),
         '/registration': (context) => regisScreen.RegistrationScreen(),
         '/dashboard' : (context) => dashboard.Dashboard(),
-        '/reportHealth' : (context) => repHealth.ReportHealth()
+        '/reportHealth' : (context) => repHealth.ReportHealth(),
+        '/stateData': (context) => state.StateData(),
       },
     );
   }
