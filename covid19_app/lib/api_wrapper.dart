@@ -69,7 +69,7 @@ class Covid19API {
     try {
       var resp = await client.get("$SERVER_URI/api/users/?format=json",
           headers: {"Authorization": "Token ${this.token}"});
-      return {"status": "success", "info": jsonDecode(resp.body)['results']};
+      return {"status": "success", "info": jsonDecode(resp.body)};
     } catch (e) {
       print("Unable to parse response: $e");
       return {"status": "failed", "info": "$e"};
@@ -308,7 +308,7 @@ class Covid19API {
     try {
       var resp = await client.get("$SERVER_URI/api/coronacases/?format=json",
           headers: {"Authorization": "Token ${this.token}"});
-      return {"status": "success", "info": jsonDecode(resp.body)['results']};
+      return {"status": "success", "info": jsonDecode(resp.body)};
     } catch (e) {
       print("Unable to parse response: $e");
       return {"status": "failed", "info": "$e"};
@@ -321,7 +321,7 @@ class Covid19API {
     try {
       var resp = await client.get("$SERVER_URI/api/healthstat/?format=json",
           headers: {"Authorization": "Token ${this.token}"});
-      return {"status": "success", "info": jsonDecode(resp.body)['results']};
+      return {"status": "success", "info": jsonDecode(resp.body)};
     } catch (e) {
       print("Unable to parse response: $e");
       return {"status": "failed", "info": "$e"};
@@ -338,5 +338,8 @@ Future<void> main() async {
   Covid19API a = Covid19API();
   print("Tring to login");
   await a.login("jaishriram157", "log14627");
+  Map data = await a.coronaCases();
+  print(data);
+
 
 }
