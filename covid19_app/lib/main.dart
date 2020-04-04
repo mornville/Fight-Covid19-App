@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'landingScreen.dart' as landingScreen;
 import 'login.dart' as loginScreen;
 import 'registration.dart' as regisScreen;
-
+import 'dashboard.dart' as dashboard;
+import 'reportHealth.dart' as repHealth;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => loginScreen.LoginScreen(),
         '/registration': (context) => regisScreen.RegistrationScreen(),
-
+        '/dashboard' : (context) => dashboard.Dashboard(),
+        '/reportHealth' : (context) => repHealth.ReportHealth()
       },
     );
   }
