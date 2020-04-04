@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 
 class Dashboard extends StatefulWidget {
@@ -10,19 +9,60 @@ class Dashboard extends StatefulWidget {
 
 
 class _DashboardState extends State<Dashboard> {
-  _launchURL() async {
-    const url = 'https://covid19.thepodnet.com/maps/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+
+
+  openBrowserTab(url) async {
+    await FlutterWebBrowser.openWebPage(url: url, androidToolbarColor: Colors.black);
   }
 
-  openBrowserTab() async {
-    await FlutterWebBrowser.openWebPage(url: "https://covid19.thepodnet.com/maps/", androidToolbarColor: Colors.black);
+  //bottomDrawer
+  void _settingModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Padding(
+                        child: Image.asset(
+                          'assets/address.png',
+                          height: 30.0,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
+                    title: Text('Check Patients on Map', style: TextStyle(fontFamily: 'Raleway'),),
+                    onTap: () {
+                      openBrowserTab("https://covid19.thepodnet.com/maps/");                    }),
+                ListTile(
+                    leading: Padding(
+                        child: Image.asset(
+                          'assets/news.png',
+                          height: 30.0,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
+                    title: Text('News Board', style: TextStyle(fontFamily: 'Raleway'),),
+                    onTap: () {
+                      openBrowserTab("https://covid19.thepodnet.com/news/");
+                    }),
+                ListTile(
+                    leading: Padding(
+                        child: Image.asset(
+                          'assets/edit.png',
+                          height: 30.0,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
+                    title: Text('Record My Health', style: TextStyle(fontFamily: 'Raleway'),),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/reportHealth');
+                    }),
+              ],
+            ),
+          );
+        });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +78,15 @@ class _DashboardState extends State<Dashboard> {
         ),
         leading: Container(),
         centerTitle: true,
-        actions: <Widget>[],
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 5.0),
+            child: IconButton(
+            icon: Icon(Icons.exit_to_app, color: Colors.white,),
+              onPressed: (){},
+            ),
+          ),
+        ],
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
@@ -52,7 +100,9 @@ class _DashboardState extends State<Dashboard> {
         elevation: 4.0,
         icon: Icon(Icons.edit_location),
         label: Text('Report Health', style:TextStyle(fontFamily: 'OpenSans', letterSpacing: 0.0),),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/reportHealth');
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -61,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             FlatButton(
-              onPressed: () => openBrowserTab(),
+              onPressed: () => openBrowserTab("https://covid19.thepodnet.com/maps/"),
 
               child: Padding(
                   child: Image.asset(
@@ -72,7 +122,9 @@ class _DashboardState extends State<Dashboard> {
                       top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
             ),
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                _settingModalBottomSheet(context);
+              },
               child: Padding(
                   child: Image.asset(
                     'assets/trail.png',
