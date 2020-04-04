@@ -28,7 +28,7 @@ class Covid19API {
   /// Fetch user token using the provided [username] and [password]
   Future<Map> login(String username, String password) async {
     try {
-      var resp = await client.post("$SERVER_URI/api-token-auth/",
+      var resp = await client.post("$SERVER_URI/auth-token/",
           body: {'username': username, 'password': password});
       Map data = jsonDecode(resp.body);
       if (data.containsKey("non_field_errors")) {
