@@ -121,8 +121,8 @@ class _ReportHealthState extends State<ReportHealth> {
       a.token = token;
       print('reportHealth');
       var d = await a.getCurrentUser();
-      print(d);
-      Map data = await a.healthEntry(user_id: 4,fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude:_lat, longitude: _long, difficult_breathing: difficultBreathing);
+print(d['info']['id']);
+      Map data = await a.healthEntry(user_id: d['info']['id'],fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude:_lat, longitude: _long, difficult_breathing: difficultBreathing);
       final error = data['info'];
 
       if (data['status'] == 'success') {
