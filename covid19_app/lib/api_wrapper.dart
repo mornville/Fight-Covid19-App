@@ -4,7 +4,7 @@ import 'dart:convert';
 
 // Global variables
 
-const String SERVER_URI = "https://covid19.thepodnet.com/";
+const String SERVER_URI = "https://covid19.thepodnet.com";
 
 class Covid19API {
   var client = http.Client();
@@ -30,6 +30,7 @@ class Covid19API {
     try {
       var resp = await client.post("$SERVER_URI/auth-token/",
           body: {'username': username, 'password': password});
+      print(resp.body);
       Map data = jsonDecode(resp.body);
       if (data.containsKey("non_field_errors")) {
         return {"status": "error", "info": "incorrect login id and password."};
@@ -339,6 +340,6 @@ class Covid19API {
 Future<void> main() async {
   Covid19API a = Covid19API();
   print("Tring to login");
-  await a.login("aditya", "adi12345");
-  print("Logged in.");
+  await a.login("jaishriram157", "log14627");
+
 }
