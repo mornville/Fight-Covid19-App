@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:covid19_app/api_wrapper.dart' as api;
+import 'package:shared_preferences/shared_preferences.dart';
 class ReportHealth extends StatefulWidget {
   @override
   _ReportHealthState createState() => _ReportHealthState();
 }
 
 class _ReportHealthState extends State<ReportHealth> {
+  void _showDialog(text) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title:  Text("Couldnt Submit Your Report."),
+          content:  Text(text??'Server Error'),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child:  Text("Try Again"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   String _username, _lat, _long;
@@ -46,13 +69,38 @@ class _ReportHealthState extends State<ReportHealth> {
     _long = 'null';
     super.initState();
   }
+  Future<void> _submitReport() async {
+
+    // Getting smitty api instance
+    print("inside preform logic method");
+
+    api.Covid19API a = api.Covid19API();
+    print('reportHealth');
+    var d = await a.healthStat();
+    print(d);
+    Map data = await a.healthEntry(username: _username,fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude: _lat, longitude: _long, difficult_breathing: difficultBreathing);
+    final error = data['info'];
+
+    if (data['status'] == 'success') {
+      _showDialog('Your Report has been submitted');
+      Navigator.pushNamed(context, '/dashboard');
+
+      }
+     else {
+      print("Unable to Create.");
+      print(error);
+
+      _showDialog(error.toString().replaceAll('[', ' ').replaceAll(']', ' ')??'Internal Error');
+
+    }
+  }
 
   //submitForm
   void _submit() {
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();
-      print('Submitted');
+      _submitReport();
     }
   }
   @override
