@@ -278,10 +278,10 @@ class Covid19API {
       if (self_quarantine != null) {
         args.addAll({"self_quarantine": self_quarantine.toString()});
       }
-      if (latitude == null) {
+      if (latitude != null) {
         args.addAll({"latitude": latitude});
       }
-      if (longitude == null) {
+      if (longitude != null) {
         args.addAll({"longitude": longitude});
       }
 
@@ -338,8 +338,7 @@ Future<void> main() async {
   Covid19API a = Covid19API();
   print("Tring to login");
   await a.login("jaishriram157", "log14627");
-  Map data = await a.coronaCases();
-  print(data['info']['total']);
+  await a.healthEntry(user_id: 1,fever: false,cough: false,difficult_breathing: false,self_quarantine: true,latitude: "25.306422000000000",longitude: "82.988067800000000");
 
 
 }
