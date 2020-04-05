@@ -156,13 +156,29 @@ class _DashboardState extends State<Dashboard> {
   }
 
   //bottomDrawer
-  void _settingModalBottomSheet(context) {
+  void _settingModalBottomSheet(context, Map temp) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
           return Container(
             child: Wrap(
               children: <Widget>[
+                ListTile(
+                    leading: Padding(
+                        child: Image.asset(
+                          'assets/user.png',
+                          height: 30.0,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
+                    title: Text(
+                      'My Profile',
+                      style: TextStyle(fontFamily: 'Raleway'),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/myProfile', arguments: {
+                        'currentuser':temp
+                      });                    }),
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
@@ -178,6 +194,7 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () {
                       openBrowserTab("https://covid19.thepodnet.com/maps/");
                     }),
+
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
@@ -218,6 +235,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context).settings.arguments;
     Map cases = data["cases"];
+    Map currentuser = data['currentuser'];
 
     return WillPopScope(
         onWillPop: () async => false,
@@ -288,7 +306,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   FlatButton(
                     onPressed: () {
-                      _settingModalBottomSheet(context);
+                      _settingModalBottomSheet(context, currentuser);
                     },
                     child: Padding(
                         child: Image.asset(
