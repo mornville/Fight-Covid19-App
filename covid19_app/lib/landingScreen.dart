@@ -43,80 +43,66 @@ class _LandingScreenState extends State<LandingScreen> {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/back.jpg'), fit: BoxFit.cover ),
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(40.0),
+                color: Color.fromRGBO(64, 146, 240, .7),
+                child: MaterialButton(
+                  minWidth: 300.0,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () {
+                    openBrowserTab('https://covid19.thepodnet.com/accounts/signup/');
+                  },
+                  child: Text("Create a New Account",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Oswald',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18)),
+                ),
               ),
-              child: null /* add child content here */,
+              SizedBox(
+                height: 20.0,
+              ),
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(40.0),
+                color: Color.fromRGBO(85, 85, 85, .7),
+                child: MaterialButton(
+                  minWidth: 300.0,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: Text("Login to My Account",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Oswald',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18)),
+                ),
+              ),
+              SizedBox(
+                height: 100.0,
+              ),
+            ],
+          ),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration:  BoxDecoration(
+            image: DecorationImage(
+              image:  AssetImage(
+                  'assets/back.jpg'),
+              fit: BoxFit.cover,
             ),
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 100.0,
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(),
-                ),
-                Expanded(
-                  flex:1 ,
-                  child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Material(
-                            elevation: 5.0,
-                            borderRadius: BorderRadius.circular(40.0),
-                            color: Color.fromRGBO(64, 146, 240, .7),
-                            child: MaterialButton(
-                              minWidth: 300.0,
-                              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              onPressed: () {
-                              openBrowserTab('https://covid19.thepodnet.com/accounts/signup/');
-                              },
-                              child: Text("Create a New Account",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Oswald',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18)),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          Material(
-                            elevation: 5.0,
-                            borderRadius: BorderRadius.circular(40.0),
-                            color: Color.fromRGBO(85, 85, 85, .7),
-                            child: MaterialButton(
-                              minWidth: 300.0,
-                              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/login');
-                              },
-                              child: Text("Login to My Account",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Oswald',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18)),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 100.0,
-                          ),
-                        ],
-                      )),
-                ),
-              ],
-            ),
-          ],
+            shape: BoxShape.circle,
+          ),
         ),
       ),
     );
