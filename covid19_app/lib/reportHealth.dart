@@ -146,7 +146,7 @@ print(d['info']['id']);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
