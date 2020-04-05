@@ -86,11 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
     print("Checking if the user is already logged in");
     if (token != null && token.isNotEmpty) {
       api.Covid19API a = api.Covid19API();
+      Map temp = await a.getCurrentUser();
+      print(temp['info']);
       print("Already logged in");
       a.token = token;
       Map data = await a.coronaCases();
       Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
-        'cases':data['info']['total']
+        'cases':data['info']['total'], 'currentuser':temp['info']
       });
 
     }
@@ -112,13 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
       if (data['status'] == 'success') {
         print("Login successful");
         sharedPrefs.setString("token", a.token);
+        Map temp = await a.getCurrentUser();
+        print(temp['info']);
         Map data = await a.coronaCases();
         print("token stored");
         //Checking if the user is Admin or employee
         Navigator.pop(context); //close the dialogue
 
         Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
-          'cases':data['info']['total']
+          'cases':data['info']['total'], 'currentuser':temp['info']
         });
       } else {
         print("Unable to login.");
@@ -133,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    checkIfAlreadyLoggedIn();
+//    checkIfAlreadyLoggedIn();
     super.initState();
   }
   @override
