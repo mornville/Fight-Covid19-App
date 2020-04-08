@@ -328,6 +328,19 @@ class Covid19API {
     }
   }
 
+  // Get News
+
+  Future<Map> getNews() async {
+    try {
+      var resp = await client.get("$SERVER_URI/api/news/?format=json",
+          headers: {"Authorization": "Token ${this.token}"});
+      return {"status": "success", "info": jsonDecode(resp.body)};
+    } catch (e) {
+      print("Unable to parse response: $e");
+      return {"status": "failed", "info": "$e"};
+    }
+  }
+
   /// Close the persistent connection with the server.
   void close() {
     client.close();
@@ -337,10 +350,8 @@ class Covid19API {
 Future<void> main() async {
   Covid19API a = Covid19API();
   print("Tring to login");
-  await a.login("jaishriram157", "log14627");
+  Map data =await a.login("jaishriram157", "log14627");
 
-  Map data = await a.healthEntry(user_id: 4,fever: false,cough: false,difficult_breathing: false,self_quarantine: true,latitude: "25.306422000000000",longitude: "82.988067800000000");
-  print(data['info']);
 
 
 }
