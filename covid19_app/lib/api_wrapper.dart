@@ -351,7 +351,8 @@ Future<void> main() async {
   Covid19API a = Covid19API();
   print("Tring to login");
   Map data =await a.login("jaishriram157", "log14627");
-
+  Map news = await a.getNews();
+  print(news['info']['Google News'][1]);
 
 
 }

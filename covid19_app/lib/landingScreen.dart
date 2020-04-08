@@ -44,7 +44,6 @@ class _LandingScreenState extends State<LandingScreen> {
 
       if (data['status'] == 'success') {
         Map hoiStat = await a.healthStat();
-        print(hoiStat);
         Map temp = await a.coronaCases();
         print("Fetching successful");
         //Checking if the user is Admin or employee

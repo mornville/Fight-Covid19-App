@@ -75,7 +75,34 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  Map news = Map();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  //Important Functions
+  Future<void> _getNews(BuildContext context) async {
+    try {
+      Navigator.pop(context);
+      dg.Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      print("inside getNews");
+      api.Covid19API a = api.Covid19API();
+      Map data = await a.login('mornville', 'apple007');
+      if (data['status'] == 'success') {
+        Map hoiStat = await a.getNews();
+        news = hoiStat['info'];
+        Navigator.pop(context);
+//Checking if the user is Admin or employee
+        Navigator.pushNamed(context, '/news', arguments: {
+          'news' : news
+        }); //close the dialogue
+
+      } else {
+        Navigator.pop(context); //close the dialogue
+        dg.showDialogBox(context, 'Make sure you are connected to the internet.');
+      }
+    } catch (error) {
+      print(error);
+    }
+    // Getting smitty api instance and shared_preference storage instance
+  }
 
   Future<void> showDialogBox(BuildContext context, String text) {
     return showDialog<void>(
@@ -123,6 +150,7 @@ class _DashboardState extends State<Dashboard> {
           return Container(
             child: Wrap(
               children: <Widget>[
+
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
@@ -160,11 +188,11 @@ class _DashboardState extends State<Dashboard> {
                         padding: EdgeInsets.only(
                             top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
                     title: Text(
-                      'News Board',
+                      'News Related to COVID-19',
                       style: TextStyle(fontFamily: 'Raleway'),
                     ),
                     onTap: () {
-                      openBrowserTab("https://covid19.thepodnet.com/news/");
+                      _getNews(context);
                     }),
                 ListTile(
                     leading: Padding(
@@ -195,7 +223,6 @@ class _DashboardState extends State<Dashboard> {
     if (data != null) {
       coronaCases = data['total']['total_stats'];
       hoiStat = data['hoiStat'];
-      print(hoiStat);
     }
 
     return Scaffold(
@@ -249,7 +276,9 @@ class _DashboardState extends State<Dashboard> {
                         top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  _settingModalBottomSheet(context);
+                },
                 child: Padding(
                     child: Image.asset(
                       'assets/trail.png',
