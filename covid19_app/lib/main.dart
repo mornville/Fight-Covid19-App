@@ -6,6 +6,7 @@ import 'dashboard.dart' as dashboard;
 import 'state.dart' as state;
 import 'reportHealth.dart' as repHealth;
 import 'myProfile.dart' as mp;
+import 'news.dart' as news;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         '/dashboard' : (context) => dashboard.Dashboard(),
         '/reportHealth' : (context) => repHealth.ReportHealth(),
         '/stateData': (context) => state.StateData(),
-        '/myProfile': (context)=> mp.MyProfile()
+        '/myProfile': (context)=> mp.MyProfile(),
+        '/news': (context) => news.News()
       },
     );
   }
