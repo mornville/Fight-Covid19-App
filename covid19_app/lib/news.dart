@@ -24,11 +24,12 @@ class _NewsState extends State<News> {
     super.initState();
   }
 
-  bool _loaded = false;
   List combine(List ans, List temp) {
-    int i;
-    for (i = 0; i < temp.length; i++) {
-      ans.add(temp[i]);
+    int i, j;
+    for(i=0;i<temp.length;i++){
+      for(j=0;j<temp[i].length;j++){
+        ans.add(temp[i][j]);
+      }
     }
     return ans;
   }
@@ -120,18 +121,10 @@ class _NewsState extends State<News> {
   @override
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context).settings.arguments;
-    List temp2 = data['news']['Google News'];
-    List temp1 = data['news']['BBC News'];
-    List temp3 = data['news']['The Times of India'];
-    List temp4 = data['news']['CNBC'];
+    List temp2 = data['news'].values.toList();
+    List news = List();
+    news = combine(news, temp2);
 
-    List temp = List();
-    temp = combine(temp, temp1);
-    temp = combine(temp, temp2);
-    temp = combine(temp, temp3);
-    temp = combine(temp, temp4);
-
-    print(temp.length);
 
     return Scaffold(
         appBar: AppBar(
@@ -199,13 +192,9 @@ class _NewsState extends State<News> {
           children: <Widget>[
             Expanded(
                 child: ListView.builder(
-                    itemCount: temp.length,
+                    itemCount: news.length,
                     itemBuilder: (BuildContext context, int i) {
-                      if (i == temp.length) {
-                        setState(() {
-                          _loaded = true;
-                        });
-                      }
+
 
                       return Container(
                         child: Padding(
@@ -221,7 +210,7 @@ class _NewsState extends State<News> {
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(10.0),
                                             topRight: Radius.circular(10.0)),
-                                        child: Image.network(temp[i]['urlToImage'],
+                                        child: Image.network(news[i]['urlToImage'],
                                         )),
                                   ),
                                   Container(
@@ -237,7 +226,7 @@ class _NewsState extends State<News> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          temp[i]['title'],
+                                          news[i]['title'],
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'OpenSans',
@@ -248,7 +237,7 @@ class _NewsState extends State<News> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          temp[i]['description'],
+                                          news[i]['description'],
                                           style: TextStyle(
                                               color: Colors.black54,
                                               fontFamily: 'OpenSans',
@@ -262,12 +251,12 @@ class _NewsState extends State<News> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Text(
-                                              temp[i]['source']['name'] +
+                                              news[i]['source']['name'] +
                                                   ' - ' +
-                                                  temp[i]['publishedAt']
+                                                  news[i]['publishedAt']
                                                       .substring(
                                                           0,
-                                                          temp[i]['publishedAt']
+                                                      news[i]['publishedAt']
                                                               .indexOf('T')),
                                               style: TextStyle(
                                                   color: Colors.black54,
@@ -277,7 +266,7 @@ class _NewsState extends State<News> {
                                             ),
                                             Link(
                                               child: Icon(Icons.play_circle_filled, color: Colors.blue,),
-                                              url: temp[i]['url'],
+                                              url: news[i]['url'],
                                               onError: _showErrorSnackBar,
                                             )
                                           ],

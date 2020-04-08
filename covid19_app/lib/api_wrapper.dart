@@ -353,6 +353,9 @@ Future<void> main() async {
   Map data =await a.login("jaishriram157", "log14627");
   Map news = await a.getNews();
   print(news['info']['Google News'][1]);
+ print(news['info'].values.toList()[0][1]);
+
+
 
 
 }
