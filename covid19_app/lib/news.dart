@@ -230,7 +230,7 @@ class _NewsState extends State<News> {
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'OpenSans',
-                                              fontSize: 18.0,
+                                              fontSize: 16.0,
                                               fontWeight: FontWeight.w700),
                                         ),
                                         SizedBox(
@@ -259,7 +259,7 @@ class _NewsState extends State<News> {
                                                       news[i]['publishedAt']
                                                               .indexOf('T')),
                                               style: TextStyle(
-                                                  color: Colors.black54,
+                                                  color: Colors.black87,
                                                   fontFamily: 'OpenSans',
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.w500),
