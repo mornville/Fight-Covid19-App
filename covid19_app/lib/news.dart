@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:covid19_app/api_wrapper.dart' as api;
-import 'dialog.dart' as dg;
+
+import 'package:link/link.dart';
 
 //Card Widget
 
@@ -14,11 +13,13 @@ class News extends StatefulWidget {
 class _NewsState extends State<News> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
-  openBrowserTab(url) async {
-    await FlutterWebBrowser.openWebPage(
-        url: url, androidToolbarColor: Colors.black);
+  void _showErrorSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Oops... the URL couldn\'t be opened!'),
+      ),
+    );
   }
-
   void initState() {
     super.initState();
   }
@@ -79,7 +80,6 @@ class _NewsState extends State<News> {
                       style: TextStyle(fontFamily: 'Raleway'),
                     ),
                     onTap: () {
-                      openBrowserTab("https://covid19.thepodnet.com/maps/");
                     }),
                 ListTile(
                     leading: Padding(
@@ -94,7 +94,7 @@ class _NewsState extends State<News> {
                       style: TextStyle(fontFamily: 'Raleway'),
                     ),
                     onTap: () {
-                      openBrowserTab("https://covid19.thepodnet.com/news/");
+
                     }),
                 ListTile(
                     leading: Padding(
@@ -173,8 +173,7 @@ class _NewsState extends State<News> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               FlatButton(
-                onPressed: () =>
-                    openBrowserTab("https://covid19.thepodnet.com/maps/"),
+                onPressed: () =>{},
                 child: Padding(
                     child: Image.asset(
                       'assets/address.png',
@@ -281,9 +280,11 @@ class _NewsState extends State<News> {
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.w500),
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.more, color: Colors.blue,),
-                                            ),
+                                            Link(
+                                              child: Icon(Icons.play_circle_filled, color: Colors.blue,),
+                                              url: temp[i]['url'],
+                                              onError: _showErrorSnackBar,
+                                            )
                                           ],
                                         ),
                                         SizedBox(
