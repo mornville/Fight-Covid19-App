@@ -120,8 +120,8 @@ class _NewsState extends State<News> {
   @override
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context).settings.arguments;
-    List temp1 = data['news']['Google News'];
-    List temp2 = data['news']['BBC News'];
+    List temp2 = data['news']['Google News'];
+    List temp1 = data['news']['BBC News'];
     List temp3 = data['news']['The Times of India'];
     List temp4 = data['news']['CNBC'];
 
@@ -221,13 +221,8 @@ class _NewsState extends State<News> {
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(10.0),
                                             topRight: Radius.circular(10.0)),
-                                        child: FadeInImage(
-                                            image: NetworkImage(
-                                              temp[i]['urlToImage'],
-                                            ),
-                                            fit: BoxFit.fill,
-                                            placeholder: AssetImage(
-                                                'assets/loading.gif'))),
+                                        child: Image.network(temp[i]['urlToImage'],
+                                        )),
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
