@@ -3,10 +3,11 @@ import 'landingScreen.dart' as landingScreen;
 import 'login.dart' as loginScreen;
 import 'registration.dart' as regisScreen;
 import 'dashboard.dart' as dashboard;
-import 'state.dart' as state;
 import 'reportHealth.dart' as repHealth;
 import 'myProfile.dart' as mp;
 import 'news.dart' as news;
+import 'statewise.dart' as st;
+import 'splashScreen.dart' as splash;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,16 +27,16 @@ class MyApp extends StatelessWidget {
         dividerColor: Colors.white54,
       ),
 
-      home: landingScreen.LandingScreen(),
+      home: splash.SplashScreen(),
       routes: {
         '/login': (context) => loginScreen.LoginScreen(),
         '/landingScreen': (context) => landingScreen.LandingScreen(),
         '/registration': (context) => regisScreen.RegistrationScreen(),
         '/dashboard' : (context) => dashboard.Dashboard(),
         '/reportHealth' : (context) => repHealth.ReportHealth(),
-        '/stateData': (context) => state.StateData(),
         '/myProfile': (context)=> mp.MyProfile(),
-        '/news': (context) => news.News()
+        '/news': (context) => news.News(),
+        '/statewise' : (context) => st.StateWise()
       },
     );
   }
