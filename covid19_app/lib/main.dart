@@ -8,6 +8,7 @@ import 'news.dart' as news;
 import 'statewise.dart' as st;
 import 'splashScreen.dart' as splash;
 import 'getting_started.dart' as gt;
+import 'firstScreen.dart' as fs;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         dividerColor: Colors.white54,
       ),
 
-      home: splash.SplashScreen(),
+      home: fs.LandingScreen(),
       routes: {
         '/login': (context) => loginScreen.LoginScreen(),
         '/registration': (context) => regisScreen.RegistrationScreen(),
