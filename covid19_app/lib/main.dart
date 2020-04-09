@@ -8,6 +8,7 @@ import 'myProfile.dart' as mp;
 import 'news.dart' as news;
 import 'statewise.dart' as st;
 import 'splashScreen.dart' as splash;
+import 'getting_started.dart' as gt;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         '/reportHealth' : (context) => repHealth.ReportHealth(),
         '/myProfile': (context)=> mp.MyProfile(),
         '/news': (context) => news.News(),
-        '/statewise' : (context) => st.StateWise()
+        '/statewise' : (context) => st.StateWise(),
+        '/gettingStarted': (context) => gt.GettingStartedScreen()
       },
     );
   }

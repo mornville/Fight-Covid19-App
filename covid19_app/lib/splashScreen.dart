@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/landingScreen');
+    Navigator.of(context).pushReplacementNamed('/gettingStarted');
   }
 
   @override
@@ -25,18 +25,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body:  Stack(
-children: <Widget>[
-  Container(
-    color: Color.fromRGBO(14, 30,47, 1),
-    height: MediaQuery.of(context).size.height,
-    width: MediaQuery.of(context).size.width,
-    child:  Center(
-      child: Image.asset('assets/splash.gif'),
-    ),
-  ),
-],      ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            color: Color.fromRGBO(14, 30, 47, 1),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Image.asset('assets/splash.gif'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

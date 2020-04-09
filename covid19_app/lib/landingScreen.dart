@@ -62,11 +62,6 @@ class _LandingScreenState extends State<LandingScreen> {
     // Getting smitty api instance and shared_preference storage instance
   }
 
-
-  openBrowserTab(url) async {
-    await FlutterWebBrowser.openWebPage(
-        url: url, androidToolbarColor: Colors.black);
-  }
   //KeyLoader for Dialog
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
