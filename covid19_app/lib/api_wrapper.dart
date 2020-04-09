@@ -330,6 +330,17 @@ class Covid19API {
 
   // Get News
 
+  Future<Map> test() async {
+    try {
+      var resp = await client.get("https://api.covid19india.org/state_district_wise.json");
+      return {"status": "success", "info": jsonDecode(resp.body)};
+    } catch (e) {
+      print("Unable to parse response: $e");
+      return {"status": "failed", "info": "$e"};
+    }
+  }
+
+
   Future<Map> getNews() async {
     try {
       var resp = await client.get("$SERVER_URI/api/news/?format=json",
@@ -349,11 +360,7 @@ class Covid19API {
 
 Future<void> main() async {
   Covid19API a = Covid19API();
-  print("Tring to login");
-  Map data =await a.login("jaishriram157", "log14627");
-  Map news = await a.getNews();
-  print(news['info']['Google News'][1]);
- print(news['info'].values.toList()[0][1]);
+
 
 
 
