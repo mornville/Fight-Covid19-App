@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
-
-import 'package:link/link.dart';
-
+import 'package:covid19_app/api_wrapper.dart' as api;
+import 'dialog.dart' as dg;
 //Card Widget
 
 class News extends StatefulWidget {
@@ -12,6 +11,7 @@ class News extends StatefulWidget {
 
 class _NewsState extends State<News> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  Map news = Map();
 
   void _showErrorSnackBar() {
     Scaffold.of(context).showSnackBar(
@@ -33,8 +33,36 @@ class _NewsState extends State<News> {
     }
     return ans;
   }
+  Future<void> _getNews(BuildContext context) async {
+    try {
+      Navigator.pop(context);
+      dg.Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      print("inside getNews");
+      api.Covid19API a = api.Covid19API();
+      Map data = await a.login('mornville', 'apple007');
+      if (data['status'] == 'success') {
+        Map hoiStat = await a.getNews();
+        news = hoiStat['info'];
+        Navigator.pop(context);
+//Checking if the user is Admin or employee
+        Navigator.pushNamed(context, '/news',
+            arguments: {'news': news}); //close the dialogue
 
-  //bottomDrawer
+      } else {
+        Navigator.pop(context); //close the dialogue
+        dg.showDialogBox(
+            context, 'Make sure you are connected to the internet.');
+      }
+    } catch (error) {
+      print(error);
+    }
+    // Getting smitty api instance and shared_preference storage instance
+  }
+
+  openBrowserTab(url) async {
+    await FlutterWebBrowser.openWebPage(
+        url: url, androidToolbarColor: Colors.black);
+  }  //bottomDrawer
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
         context: context,
@@ -42,32 +70,7 @@ class _NewsState extends State<News> {
           return Container(
             child: Wrap(
               children: <Widget>[
-                ListTile(
-                    leading: Padding(
-                        child: Image.asset(
-                          'assets/user.png',
-                          height: 30.0,
-                        ),
-                        padding: EdgeInsets.only(
-                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
-                    title: Text(
-                      'My Profile',
-                      style: TextStyle(fontFamily: 'Raleway'),
-                    ),
-                    onTap: () {}),
-                ListTile(
-                    leading: Padding(
-                        child: Image.asset(
-                          'assets/user.png',
-                          height: 30.0,
-                        ),
-                        padding: EdgeInsets.only(
-                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
-                    title: Text(
-                      'My Profile',
-                      style: TextStyle(fontFamily: 'Raleway'),
-                    ),
-                    onTap: () {}),
+
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
@@ -81,6 +84,7 @@ class _NewsState extends State<News> {
                       style: TextStyle(fontFamily: 'Raleway'),
                     ),
                     onTap: () {
+                      openBrowserTab("https://covid19.thepodnet.com/maps/");
                     }),
                 ListTile(
                     leading: Padding(
@@ -91,12 +95,14 @@ class _NewsState extends State<News> {
                         padding: EdgeInsets.only(
                             top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
                     title: Text(
-                      'News Board',
+                      'News Related to COVID-19',
                       style: TextStyle(fontFamily: 'Raleway'),
                     ),
                     onTap: () {
-
+                      _getNews(context);
                     }),
+
+
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
@@ -137,7 +143,7 @@ class _NewsState extends State<News> {
                 color: Colors.white,
                 fontFamily: 'Montserrat'),
           ),
-          leading: Container(),
+
           centerTitle: true,
           iconTheme: IconThemeData(
             color: Colors.white,
@@ -176,7 +182,10 @@ class _NewsState extends State<News> {
                         top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  _settingModalBottomSheet(context);
+
+                },
                 child: Padding(
                     child: Image.asset(
                       'assets/trail.png',
@@ -264,11 +273,12 @@ class _NewsState extends State<News> {
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.w500),
                                             ),
-                                            Link(
-                                              child: Icon(Icons.play_circle_filled, color: Colors.blue,),
-                                              url: news[i]['url'],
-                                              onError: _showErrorSnackBar,
-                                            )
+                                           IconButton(
+                                             icon: Icon(Icons.play_circle_filled, color:Colors.blue),
+                                             onPressed: (){
+                                               openBrowserTab(news[i]['url']);
+                                             },
+                                           ),
                                           ],
                                         ),
                                         SizedBox(

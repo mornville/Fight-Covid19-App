@@ -154,19 +154,7 @@ class _DashboardState extends State<Dashboard> {
           return Container(
             child: Wrap(
               children: <Widget>[
-                ListTile(
-                    leading: Padding(
-                        child: Image.asset(
-                          'assets/user.png',
-                          height: 30.0,
-                        ),
-                        padding: EdgeInsets.only(
-                            top: 8.0, left: 0.0, right: 8.0, bottom: 10.0)),
-                    title: Text(
-                      'My Profile',
-                      style: TextStyle(fontFamily: 'Raleway'),
-                    ),
-                    onTap: () {}),
+
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
