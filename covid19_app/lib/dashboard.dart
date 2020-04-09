@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,49 +71,6 @@ Widget CardInfo(
   );
 }
 
-Widget ColumnInfo(
-    String title, String number, String delta, Color color, Color color1) {
-  return Column(
-    children: <Widget>[
-      Text(
-        title,
-        style: TextStyle(
-          color: color1,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w700,
-          fontSize: 13.0,
-        ),
-      ),
-      SizedBox(
-        height: 20.0,
-      ),
-      Text(
-        delta == ' ' ||
-            delta == null
-            ? ' '
-            : (' [' +
-            '+' +
-            delta.toString() +
-            ']'),
-        style: TextStyle(
-            color:color1,
-            fontSize: 15.0,
-            fontWeight: FontWeight.w700),
-      ),
-      SizedBox(
-        height: 5.0,
-      ),
-      Text(
-        number?? 'N/A',
-        style: TextStyle(
-            color: color,
-            fontSize: 23.0,
-            fontWeight: FontWeight.w700),
-      ),
-    ],
-  );
-}
-
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -134,6 +90,7 @@ class _DashboardState extends State<Dashboard> {
       if (data['status'] == 'success') {
         Map hoiStat = await a.getNews();
         news = hoiStat['info'];
+        Navigator.pop(context);
 //Checking if the user is Admin or employee
         Navigator.pushNamed(context, '/news',
             arguments: {'news': news}); //close the dialogue
@@ -187,6 +144,8 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
   }
 
+  List statewise = List();
+
   //bottomDrawer
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
@@ -238,6 +197,8 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () {
                       _getNews(context);
                     }),
+
+
                 ListTile(
                     leading: Padding(
                         child: Image.asset(
@@ -264,9 +225,12 @@ class _DashboardState extends State<Dashboard> {
     final Map data = ModalRoute.of(context).settings.arguments;
     Map coronaCases = Map();
     Map hoiStat = Map();
+
     if (data != null) {
       coronaCases = data['total']['total_stats'];
       hoiStat = data['hoiStat'];
+      statewise = data['total']['statewise'].values.toList();
+      print(statewise);
     }
 
     return Scaffold(
@@ -344,61 +308,100 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(
                   height: 7.0,
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      child: Padding(
-                        child: Text(
-                          'COVID-19 INDIA STATISTICS',
+                Card(
+                  elevation: 10.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: ListTile(
+                        title: Text(
+                          'Get Statewise Data',
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22.0,
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.w900),
+                              color: Colors.blue,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w700),
                         ),
-                        padding:
-                        EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  child: Text(
-                    'Last Updated: ' +
-                        (coronaCases['lastupdatedtime'] ?? 'Recently'),
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontFamily: 'Poppins',
-                      fontSize: 13.0,
-                    ),
+                        onTap: ()
+                        {
+                          Navigator.pushNamed(context, '/statewise',
+                          arguments: {'state': statewise});
+
+  },
+
+                        trailing: Padding(
+                            child: Image.asset(
+                              'assets/link.png',
+                              height: 50.0,
+                            ),
+                            padding: EdgeInsets.only(
+                                top: 0.0, left: 0.0, right: 0.0, bottom: 0.0))),
                   ),
-                  padding: EdgeInsets.only(left: 10.0, top: 0.0, bottom: 10.0),
                 ),
                 SizedBox(
-                  height: 10.0,
+                  height: 5.0,
                 ),
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: ColumnInfo('CONFIRMED', coronaCases['confirmed'].toString(), coronaCases['deltaconfirmed'].toString(), Color.fromRGBO(196, 75, 75,1),Color.fromRGBO(196, 75, 75,.8))
+                      child: CardInfo(
+                          'Total Cases',
+                          coronaCases['confirmed'].toString(),
+                          'assets/population.png',
+                          coronaCases['deltaconfirmed'],
+                          Colors.red),
                     ),
                     Expanded(
-                        child: ColumnInfo('ACTIVE', coronaCases['active'].toString(), coronaCases['deltaactive'].toString(), Color.fromRGBO(48, 100, 255,1), Color.fromRGBO(48, 100, 255,.7))
-                    ),
-                    Expanded(
-                        child: ColumnInfo('RECOVERED', coronaCases['recovered'].toString(), coronaCases['deltarecovered'].toString(), Color.fromRGBO(12, 138, 37,1), Color.fromRGBO(12, 138, 37,.7))
-                    ),
-                    Expanded(
-                        child: ColumnInfo('DECEASED', coronaCases['deaths'].toString(), coronaCases['deltadeaths'].toString(), Colors.black87, Colors.black54)
+                      child: CardInfo(
+                          'Total Deceased',
+                          coronaCases['deaths'].toString(),
+                          'assets/tombstone.png',
+                          coronaCases['deltadeaths'],
+                          Colors.red),
                     ),
                   ],
                 ),
-
                 SizedBox(
-                  height: 20.0,
+                  height: 5.0,
                 ),
-
-
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: CardInfo(
+                          'Recovered ',
+                          coronaCases['recovered'].toString(),
+                          'assets/patient.png',
+                          coronaCases['deltarecovered'],
+                          Colors.green),
+                    ),
+                    Expanded(
+                      child: CardInfo(
+                          'Active Cases',
+                          coronaCases['active'].toString(),
+                          'assets/infected.png',
+                          coronaCases['deltaactive'],
+                          Colors.red),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.end,
+                 children: <Widget>[
+                   Padding(
+                     child: Text(
+                       '*Last Updated: ' +
+                           (coronaCases['lastupdatedtime'] ?? 'Recently'),
+                       style: TextStyle(
+                         color: Colors.black,
+                         fontFamily: 'Poppins',
+                         fontSize: 13.0,
+                       ),
+                     ),
+                     padding: EdgeInsets.only(right: 10.0, top: 10.0, bottom: 10.0),
+                   ),
+                 ],
+               ),
                 Row(
                   children: <Widget>[
                     Container(
