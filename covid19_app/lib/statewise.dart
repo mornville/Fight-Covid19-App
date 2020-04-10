@@ -8,137 +8,142 @@ import 'dialog.dart' as dg;
 //Card Widget
 Widget ColumnInfo(String state, String c, String dc, String a, String da,
     String r, String dr, String d, String dd) {
-  return Column(
-    children: <Widget>[
-      Row(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Text(
-              state.toUpperCase(),
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w700,
-                fontSize: 15.0,
-              ),
-            ),
+  return Card(
+    elevation: 5.0,
+    child: Padding(
+      padding: EdgeInsets.all(10.0),
+      child: ListTile(
+        title:Text(
+          state.toUpperCase(),
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w700,
+            fontSize: 15.0,
           ),
-          Expanded(
-            child: Column(
+        ) ,
+        subtitle: Column(
+
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
               children: <Widget>[
-                SizedBox(
-                  height: 20.0,
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+
+                      Text(
+                        dc == ' ' || dc == null
+                            ? ' '
+                            : (' [' + '+' + dc.toString() + ']'),
+                        style: TextStyle(
+                            color: Color.fromRGBO(196, 75, 75, .8),
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        c ?? 'N/A',
+                        style: TextStyle(
+                            color: Color.fromRGBO(196, 75, 75, 1),
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  dc == ' ' || dc == null
-                      ? ' '
-                      : (' [' + '+' + dc.toString() + ']'),
-                  style: TextStyle(
-                      color: Color.fromRGBO(196, 75, 75, .8),
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w700),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+
+                      Text(
+                        da == ' ' || da == null
+                            ? ' '
+                            : (' [' + '+' + da.toString() + ']'),
+                        style: TextStyle(
+                            color: Color.fromRGBO(48, 100, 255, .8),
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        a ?? 'N/A',
+                        style: TextStyle(
+                            color: Color.fromRGBO(48, 100, 255, 1),
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: 5.0,
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+
+                      Text(
+                        dr == ' ' || dr == null
+                            ? ' '
+                            : (' [' + '+' + dr.toString() + ']'),
+                        style: TextStyle(
+                            color: Color.fromRGBO(12, 138, 37, .8),
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        r ?? 'N/A',
+                        style: TextStyle(
+                            color: Color.fromRGBO(12, 138, 37, 1),
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  c ?? 'N/A',
-                  style: TextStyle(
-                      color: Color.fromRGBO(196, 75, 75, 1),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+
+                      Text(
+                        dd == ' ' || dd == null
+                            ? ' '
+                            : (' [' + '+' + dd.toString() + ']'),
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        d ?? 'N/A',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  da == ' ' || da == null
-                      ? ' '
-                      : (' [' + '+' + da.toString() + ']'),
-                  style: TextStyle(
-                      color: Color.fromRGBO(48, 100, 255, .8),
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  a ?? 'N/A',
-                  style: TextStyle(
-                      color: Color.fromRGBO(48, 100, 255, 1),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  dr == ' ' || dr == null
-                      ? ' '
-                      : (' [' + '+' + dr.toString() + ']'),
-                  style: TextStyle(
-                      color: Color.fromRGBO(12, 138, 37, .8),
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  r ?? 'N/A',
-                  style: TextStyle(
-                      color: Color.fromRGBO(12, 138, 37, 1),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  dd == ' ' || dd == null
-                      ? ' '
-                      : (' [' + '+' + dd.toString() + ']'),
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  d ?? 'N/A',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
+        trailing: IconButton(
+            icon:Icon(Icons.arrow_forward, color: Colors.blue)
+        ),
+        onTap: (){},
       ),
-    ],
+    ),
   );
 }
 
