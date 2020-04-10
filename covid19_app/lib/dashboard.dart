@@ -272,7 +272,7 @@ class _DashboardState extends State<Dashboard> {
                     openBrowserTab("https://covid19.thepodnet.com/maps/"),
                 child: Padding(
                     child: Image.asset(
-                      'assets/address.png',
+                      'assets/gps.png',
                       height: 30.0,
                     ),
                     padding: EdgeInsets.only(

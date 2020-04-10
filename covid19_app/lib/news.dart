@@ -175,7 +175,7 @@ class _NewsState extends State<News> {
                 onPressed: () =>{},
                 child: Padding(
                     child: Image.asset(
-                      'assets/address.png',
+                      'assets/gps.png',
                       height: 30.0,
                     ),
                     padding: EdgeInsets.only(
