@@ -3,6 +3,7 @@ import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:covid19_app/api_wrapper.dart' as api;
 import 'dialog.dart' as dg;
+import 'package:percent_indicator/percent_indicator.dart';
 
 //Card Widget
 Widget CardInfo(
@@ -80,9 +81,13 @@ class _DashboardState extends State<Dashboard> {
   Map news = Map();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   //Important Functions
-  Future<void> _getNews(BuildContext context) async {
+  Future<void> _getNews(BuildContext context, int flag) async {
     try {
-      Navigator.pop(context);
+      //use this only when bottomDrawer is open
+      if(flag == 1){
+        Navigator.pop(context);
+
+      }
       dg.Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
       print("inside getNews");
       api.Covid19API a = api.Covid19API();
@@ -183,7 +188,7 @@ class _DashboardState extends State<Dashboard> {
                       style: TextStyle(fontFamily: 'Raleway'),
                     ),
                     onTap: () {
-                      _getNews(context);
+                      _getNews(context, 1);
                     }),
 
 
@@ -213,13 +218,15 @@ class _DashboardState extends State<Dashboard> {
     final Map data = ModalRoute.of(context).settings.arguments;
     Map coronaCases = Map();
     Map hoiStat = Map();
-
+    double perc;
     if (data != null) {
       coronaCases = data['total']['total_stats'];
       hoiStat = data['hoiStat'];
       statewise = data['total']['statewise'].values.toList();
       print(statewise);
+      perc =  (int.parse(coronaCases['recovered'])/int.parse(coronaCases['confirmed']));
     }
+
 
     return Scaffold(
         appBar: AppBar(
@@ -299,7 +306,7 @@ class _DashboardState extends State<Dashboard> {
                 Card(
                   elevation: 10.0,
                   child: Padding(
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(5.0),
                     child: ListTile(
                         title: Text(
                           'Get Statewise Data',
@@ -327,14 +334,45 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(
                   height: 5.0,
                 ),
+                Card(
+                  elevation: 10.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: ListTile(
+                        title: Text(
+                          'News Related to COVID-19',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w700),
+                        ),
+                        onTap: ()
+                        {
+                          _getNews(context, 0);
+
+
+                        },
+
+                        trailing: Padding(
+                            child: Image.asset(
+                              'assets/news.png',
+                              height: 50.0,
+                            ),
+                            padding: EdgeInsets.only(
+                                top: 0.0, left: 0.0, right: 0.0, bottom: 0.0))),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
                 Row(
                   children: <Widget>[
                     Expanded(
                       child: CardInfo(
-                          'Total Cases',
-                          coronaCases['confirmed'].toString(),
-                          'assets/population.png',
-                          coronaCases['deltaconfirmed'],
+                          'Active Cases',
+                          coronaCases['active'].toString(),
+                          'assets/infected.png',
+                          coronaCases['deltaactive'],
                           Colors.red),
                     ),
                     Expanded(
@@ -360,13 +398,36 @@ class _DashboardState extends State<Dashboard> {
                           coronaCases['deltarecovered'],
                           Colors.green),
                     ),
+
                     Expanded(
-                      child: CardInfo(
-                          'Active Cases',
-                          coronaCases['active'].toString(),
-                          'assets/infected.png',
-                          coronaCases['deltaactive'],
-                          Colors.red),
+                      child: Card(
+                        elevation: 10.0,
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularPercentIndicator(
+                            radius: 120.0,
+                            lineWidth:8.0,
+                            animation: true,
+                            percent:perc,
+                            center:  Text(
+                              (perc*100).toString().substring(0,5) + '%',
+                              style:
+                              TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
+                            footer:  Text(
+                              "Recovery Rate",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                                fontSize: 16.0,
+                              ),)
+                            ,
+                            circularStrokeCap: CircularStrokeCap.round,
+                            progressColor: Colors.green,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
