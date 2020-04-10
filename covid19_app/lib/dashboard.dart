@@ -249,6 +249,19 @@ class _DashboardState extends State<Dashboard> {
             color: Colors.white,
             fontSize: 20.0,
           )),
+          actions: <Widget>[
+
+          Padding(
+            padding: EdgeInsets.only(right:10.0),
+            child:   IconButton(
+              icon: Icon(Icons.info, color:Colors.white, size: 30,),
+              onPressed: (){
+                Navigator.pushNamed(context, '/gettingStarted');
+              },
+            ),
+          ),
+
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
           elevation: 4.0,

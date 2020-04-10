@@ -59,7 +59,6 @@ class SlideItem extends StatelessWidget {
   SlideItem(this.index);
   Future<void> _getCorona(BuildContext context) async {
     try {
-      dg.Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
       print("inside preform logic method");
       api.Covid19API a = api.Covid19API();
       Map data = await a.login('mornville', 'apple007');
@@ -70,20 +69,18 @@ class SlideItem extends StatelessWidget {
         Map temp = await a.coronaCases();
         print("Fetching successful");
         //Checking if the user is Admin or employee
-        Navigator.pop(context); //close the dialogue
 
         Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
           'total':temp['info'], 'hoiStat':hoiStat['info'],
         });
       } else {
-        Navigator.pop(context); //close the dialogue
         dg.showDialogBox(context, 'Make sure you are connected to the internet.');
       }
     } catch (error) {
       print(error);
     }
-    // Getting smitty api instance and shared_preference storage instance
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +99,7 @@ class SlideItem extends StatelessWidget {
               onPressed: () {
                 _getCorona(context);
               },
-              child: Text(index==2?"Let's Go":"Skip To App",
+              child: Text("Close",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
