@@ -38,7 +38,7 @@ class _StateWiseState extends State<StateWise> {
           }
           Navigator.pop(context);
           Navigator.pushNamed(context, '/districtData',
-              arguments: {'stateData': stateData});
+              arguments: {'stateData': stateData, 'state':state});
         }
          //close the dialogue
 
@@ -451,7 +451,7 @@ void initState(){
                               statewise[i]['deaths'],
                               statewise[i]['deltadeaths']);
                         })),
-              
+
 
               ],
             ),

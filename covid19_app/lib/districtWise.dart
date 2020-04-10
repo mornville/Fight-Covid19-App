@@ -74,115 +74,18 @@ class _DistrictWiseState extends State<DistrictWise> {
     );
   }
 
-  void showDialogBox(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Legend", style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 20.0,
-              color: Colors.black,
-              fontFamily: 'Raleway'),),
-          content: Container(
-            height: 100.0,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: 10.0,
-                      width: 10.0,
-                      color: Colors.red,
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text('Total Cases', style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.0,
-                        color: Colors.black,
-                        fontFamily: 'Montserrat'),),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: 10.0,
-                      width: 10.0,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text('Active Cases', style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.0,
-                        color: Colors.black,
-                        fontFamily: 'Montserrat'),),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: 10.0,
-                      width: 10.0,
-                      color: Colors.green,
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text('Recovered Patients', style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.0,
-                        color: Colors.black,
-                        fontFamily: 'Montserrat'),),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: 10.0,
-                      width: 10.0,
-                      color: Colors.black54,
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text('Deceased', style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.0,
-                        color: Colors.black,
-                        fontFamily: 'Montserrat'),),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context).settings.arguments;
 
     List districtWise = data['stateData'];
-
+    String state = data['state'];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            "StateWise Data",
+            "DistrictWise Data For " + state.toString(),
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 20.0,
@@ -190,17 +93,8 @@ class _DistrictWiseState extends State<DistrictWise> {
                 fontFamily: 'Montserrat'),
           ),
           centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.info,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                showDialogBox(context);
-              },
-            ),
-          ],
+
+
           iconTheme: IconThemeData(
             color: Colors.white,
           ),
@@ -244,7 +138,8 @@ class _DistrictWiseState extends State<DistrictWise> {
                             child:
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[Text(
+                              children: <Widget>[
+                                Text(
                                 'Total',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -258,11 +153,13 @@ class _DistrictWiseState extends State<DistrictWise> {
                             ),
                           ),
                           Expanded(
+                            flex: 1,
                             child:
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[Text(
-                                'Today\'s',
+                              children: <Widget>[
+                                Text(
+                                'Today',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Poppins',
