@@ -330,7 +330,7 @@ class Covid19API {
 
   // Get News
 
-  Future<Map> test() async {
+  Future<Map> getStateData() async {
     try {
       var resp = await client.get("https://api.covid19india.org/state_district_wise.json");
       return {"status": "success", "info": jsonDecode(resp.body)};
@@ -361,8 +361,20 @@ class Covid19API {
 Future<void> main() async {
   Covid19API a = Covid19API();
 
+List d= List();
 
 
 
+  Map data =  await a.getStateData();
+  String state = 'Bihar';
+  List districts = data['info'][state]['districtData'].keys.toList();
+  for(int i=0;i<districts.length;i++){
+    int delConfirmed = data['info'][state]['districtData'][districts[i]].values.toList()[2]['confirmed'];
+    String dis = districts[i];
+    int confirmed = data['info'][state]['districtData'][districts[i]].values.toList()[0];
+    print(dis + delConfirmed.toString() + ' =' + confirmed.toString() );
+    d.add([dis, delConfirmed, confirmed]);
+  }
+  print(d[0][0]);
 
 }

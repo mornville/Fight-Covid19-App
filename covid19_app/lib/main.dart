@@ -6,9 +6,9 @@ import 'reportHealth.dart' as repHealth;
 import 'myProfile.dart' as mp;
 import 'news.dart' as news;
 import 'statewise.dart' as st;
-import 'splashScreen.dart' as splash;
 import 'getting_started.dart' as gt;
 import 'firstScreen.dart' as fs;
+import 'districtWise.dart' as dw;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
         '/myProfile': (context)=> mp.MyProfile(),
         '/news': (context) => news.News(),
         '/statewise' : (context) => st.StateWise(),
-        '/gettingStarted': (context) => gt.GettingStartedScreen()
+        '/gettingStarted': (context) => gt.GettingStartedScreen(),
+        '/districtData' : (context) => dw.DistrictWise(),
       },
     );
   }
