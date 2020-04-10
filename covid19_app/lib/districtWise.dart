@@ -35,7 +35,7 @@ class _DistrictWiseState extends State<DistrictWise> {
               ) ,
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child:
              Row(
                mainAxisAlignment: MainAxisAlignment.center,
@@ -49,21 +49,7 @@ class _DistrictWiseState extends State<DistrictWise> {
                ),],
              ),
             ),
-            Expanded(
-              child:
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    (' [' + '+' + dc.toString() + ']'),
-                    style: TextStyle(
-                        color: Color.fromRGBO(196, 75, 75, .8),
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
+
           ],
         ),
         SizedBox(
@@ -85,7 +71,7 @@ class _DistrictWiseState extends State<DistrictWise> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            "DistrictWise Data For " + state.toString(),
+            state.toString(),
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 20.0,
@@ -134,13 +120,13 @@ class _DistrictWiseState extends State<DistrictWise> {
                             ) ,
                           ),
                           Expanded(
-                            flex: 1,
+                            flex: 2,
                             child:
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                'Total',
+                                'Confirmed Cases',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Poppins',
@@ -152,25 +138,7 @@ class _DistrictWiseState extends State<DistrictWise> {
                               ],
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child:
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                'Today',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15.0,
-                                ),
-                              ) ,
 
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                       SizedBox(
