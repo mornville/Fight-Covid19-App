@@ -219,8 +219,8 @@ class _NewsState extends State<News> {
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(10.0),
                                             topRight: Radius.circular(10.0)),
-                                        child: Image.network(news[i]['urlToImage'],
-                                        )),
+                                        child: news[i]['urlToImage']!=null?Image.network(news[i]['urlToImage']):Image.network('https://www.barcelonabeta.org/sites/default/files/2018-04/default-image.png'),
+                                       ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
@@ -246,7 +246,7 @@ class _NewsState extends State<News> {
                                           height: 5.0,
                                         ),
                                         Text(
-                                          news[i]['description'],
+                                          news[i]['description'] ?? 'N/A',
                                           style: TextStyle(
                                               color: Colors.black54,
                                               fontFamily: 'OpenSans',
