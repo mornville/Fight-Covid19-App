@@ -327,6 +327,20 @@ class Covid19API {
       return {"status": "failed", "info": "$e"};
     }
   }
+  Future<Map> check() async {
+    String url ="https://coronavirus-monitor.p.rapidapi.com/coronavirus/random_masks_usage_instructions.php";
+    try {
+      var resp = await client.get("$url?format=json",
+          headers: {
+            'x-rapidapi-host': "coronavirus-monitor.p.rapidapi.com",
+            'x-rapidapi-key': "ced12735c5msha6e7fa72eec9ee3p1213dcjsn4629062473d7"
+          });
+      return {"status": "success", "info": resp.body};
+    } catch (e) {
+      print("Unable to parse response: $e");
+      return {"status": "failed", "info": "$e"};
+    }
+  }
 
   // Get News
 
@@ -363,18 +377,17 @@ Future<void> main() async {
 
 List d= List();
 
-
-
-  Map data =  await a.getStateData();
-  String state = 'Bihar';
-  List districts = data['info'][state]['districtData'].keys.toList();
-  for(int i=0;i<districts.length;i++){
-    int delConfirmed = data['info'][state]['districtData'][districts[i]].values.toList()[2]['confirmed'];
-    String dis = districts[i];
-    int confirmed = data['info'][state]['districtData'][districts[i]].values.toList()[0];
-    print(dis + delConfirmed.toString() + ' =' + confirmed.toString() );
-    d.add([dis, delConfirmed, confirmed]);
-  }
-  print(d[0][0]);
+Map b = await a.login('mornville', 'apple007');
+//  Map data =  await a.getStateData();
+//  String state = 'Bihar';
+//  List districts = data['info'][state]['districtData'].keys.toList();
+//  for(int i=0;i<districts.length;i++){
+//    int delConfirmed = data['info'][state]['districtData'][districts[i]].values.toList()[2]['confirmed'];
+//    String dis = districts[i];
+//    int confirmed = data['info'][state]['districtData'][districts[i]].values.toList()[0];
+//    print(dis + delConfirmed.toString() + ' =' + confirmed.toString() );
+//    d.add([dis, delConfirmed, confirmed]);
+//  }
+//  print(d[0][0]);
 
 }
