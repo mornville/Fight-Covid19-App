@@ -248,19 +248,24 @@ class Covid19API {
 
   // Create Health Entry
   Future<Map> healthEntry(
-      {int user_id,
+      {int age,
+      String gender,
       bool fever,
       bool cough,
       bool difficult_breathing,
       bool self_quarantine,
       String latitude,
-      String longitude
+      String longitude,
+      String unique_id
       }) async {
     try {
       Map<String, String> args = Map();
 
-      if (user_id != null) {
-        args.addAll({"user_id": user_id.toString()});
+      if (age != null) {
+        args.addAll({"age": age.toString()});
+      }
+      if (gender != null) {
+        args.addAll({"gender": gender});
       }
 
       if (fever != null) {
@@ -283,6 +288,9 @@ class Covid19API {
       }
       if (longitude != null) {
         args.addAll({"longitude": longitude});
+      }
+      if (unique_id != null) {
+        args.addAll({"unique_id": unique_id});
       }
 
       var resp = await client.post("$SERVER_URI/api/healthentry/",
