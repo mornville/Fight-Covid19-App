@@ -64,7 +64,11 @@ class _ReportHealthState extends State<ReportHealth> {
   }
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
-  String _username, _lat, _long;
+  String _username, _lat, _long, _age;
+  String dropdownValue = 'Female';
+  final List<String> genderList = ['Male', 'Female', 'Others'].toList();
+  String _gender;
+
   final TextEditingController _controllerLat =  TextEditingController();
   final TextEditingController _controllerLong =  TextEditingController();
   bool fever, cough, selfQuarantine, difficultBreathing;
@@ -96,8 +100,8 @@ class _ReportHealthState extends State<ReportHealth> {
     selfQuarantine = false;
     difficultBreathing = false;
     fever = false;
-    _lat = '0.0';
-    _long = '0.0';
+    _gender = genderList.isEmpty ? "Gender" : genderList.first;
+
     super.initState();
   }
 
@@ -121,8 +125,8 @@ class _ReportHealthState extends State<ReportHealth> {
       a.token = token;
       print('reportHealth');
       var d = await a.getCurrentUser();
-print(d['info']['id']);
-      Map data = await a.healthEntry(user_id: d['info']['id'],fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude:_lat, longitude: _long, difficult_breathing: difficultBreathing);
+      print(d['info']['id']);
+      Map data = await a.healthEntry(fever: fever, cough: cough, self_quarantine: selfQuarantine, latitude:_lat, longitude: _long, difficult_breathing: difficultBreathing);
       final error = data['info'];
 
       if (data['status'] == 'success') {
@@ -183,28 +187,6 @@ print(d['info']['id']);
                       key: formKey,
                       child: Column(
                         children: [
-
-
-
-                          SizedBox(height: 30.0,),
-                          Text('Please allow us to know your location. This might help us forecast future outbreaks. To know ypur location click below.', style: TextStyle(color: Colors.black54,fontFamily: 'Raleway', fontSize: 14.0, fontWeight: FontWeight.w600),),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: FlatButton(
-                                  onPressed: (){
-                                    _getCurrentLocation();
-
-                                  },
-                                  child: Text('Know my Location', style: TextStyle(color: Colors.indigo, fontFamily: 'Raleway', fontWeight: FontWeight.w500),),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
                           Material(
                             elevation: 1.0,
                             shadowColor: Colors.white,
@@ -213,10 +195,10 @@ print(d['info']['id']);
                               keyboardType: TextInputType.numberWithOptions(),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                prefixIcon: Icon(Icons.location_on),
+                                prefixIcon: Icon(Icons.person),
                                 contentPadding: EdgeInsets.fromLTRB(
                                     20.0, 10.0, 20.0, 10.0),
-                                labelText: "Latitude",
+                                labelText: "What is your age?",
                                 labelStyle: TextStyle(
                                     color: Colors.black54,
                                     fontFamily: 'Raleway',
@@ -231,38 +213,70 @@ print(d['info']['id']);
                               onSaved: (val) => _lat = val,
                             ),
                           ),
+                          SizedBox(height: 20.0,),
+                          Row(
+                            children: <Widget>[
+Expanded(
+  child:                               Text('What is your gender?', style: TextStyle(color: Colors.black54,fontFamily: 'Raleway', fontSize: 15.0, fontWeight: FontWeight.w600),),
 
-                          SizedBox(height: 10.0,),
-                          Material(
-                            elevation: 1.0,
-                            shadowColor: Colors.white,
-                            child: TextFormField(
-                              controller: _controllerLong,
-                              keyboardType: TextInputType.numberWithOptions(),
-
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                prefixIcon: Icon(Icons.location_on),
-                                contentPadding: EdgeInsets.fromLTRB(
-                                    20.0, 10.0, 20.0, 10.0),
-                                labelText: "Longitude",
-                                labelStyle: TextStyle(
-                                    color: Colors.black54,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w500),
-                                fillColor: Colors.white,
-
-                                //fillColor: Colors.green
+),
+                              Expanded(
+                                child:Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.black54,
+                                        style: BorderStyle.solid,
+                                        width: 0.0),
+                                  ),
+                                  child: DropdownButton<String>(
+                                    value: _gender,
+                                    iconSize: 24,
+                                    elevation: 16,
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.w500),
+                                    underline: Container(
+                                      height: 2,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                      ),
+                                    ),
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        _gender = newValue;
+                                      });
+                                    },
+                                    items: genderList
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                SizedBox(width: 20),
+                                                Text(
+                                                  value,
+                                                  style: TextStyle(
+                                                      color: Colors.black54,
+                                                      fontSize: 17.0,
+                                                      fontFamily: 'OpenSans',
+                                                      fontWeight: FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }).toList(),
+                                  ),
+                                ),
                               ),
-                              validator: (val) => val.length <= 1
-                                  ? '\This field Can\'t be Empty\n'
-                                  : null,
-                              onSaved: (val) => _long = val,
-                            ),
+
+                            ],
                           ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
+
 
                           SizedBox(height: 10.0,),
 
@@ -365,6 +379,86 @@ print(d['info']['id']);
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
+
+                          Text('Please allow us to know your location. This might help us forecast future outbreaks. To know ypur location click below.', style: TextStyle(color: Colors.black54,fontFamily: 'Raleway', fontSize: 14.0, fontWeight: FontWeight.w600),),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: FlatButton(
+                                  onPressed: (){
+                                    _getCurrentLocation();
+
+                                  },
+                                  child: Text('Know my Location', style: TextStyle(color: Colors.indigo, fontFamily: 'Raleway', fontWeight: FontWeight.w500),),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Material(
+                            elevation: 1.0,
+                            shadowColor: Colors.white,
+                            child: TextFormField(
+                              controller: _controllerLat,
+                              keyboardType: TextInputType.numberWithOptions(),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.location_on),
+                                contentPadding: EdgeInsets.fromLTRB(
+                                    20.0, 10.0, 20.0, 10.0),
+                                labelText: "Latitude",
+                                labelStyle: TextStyle(
+                                    color: Colors.black54,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w500),
+                                fillColor: Colors.white,
+
+                                //fillColor: Colors.green
+                              ),
+                              validator: (val) => val.length <= 1
+                                  ? '\This field Can\'t be Empty\n'
+                                  : null,
+                              onSaved: (val) => _lat = val,
+                            ),
+                          ),
+
+                          SizedBox(height: 10.0,),
+                          Material(
+                            elevation: 1.0,
+                            shadowColor: Colors.white,
+                            child: TextFormField(
+                              controller: _controllerLong,
+                              keyboardType: TextInputType.numberWithOptions(),
+
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.location_on),
+                                contentPadding: EdgeInsets.fromLTRB(
+                                    20.0, 10.0, 20.0, 10.0),
+                                labelText: "Longitude",
+                                labelStyle: TextStyle(
+                                    color: Colors.black54,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w500),
+                                fillColor: Colors.white,
+
+                                //fillColor: Colors.green
+                              ),
+                              validator: (val) => val.length <= 1
+                                  ? '\This field Can\'t be Empty\n'
+                                  : null,
+                              onSaved: (val) => _long = val,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+
 
 SizedBox(
   height: 20.0,
@@ -388,6 +482,10 @@ SizedBox(
                                       fontWeight: FontWeight.w500, fontSize: 18)),
                             ),
                           ),
+                          SizedBox(
+                            height: 40.0,
+                          ),
+
                         ],
                       ),
                     ),
