@@ -76,6 +76,8 @@ class SlideItem extends StatelessWidget {
   SlideItem(this.index);
   Future<void> _getCorona(BuildContext context) async {
     try {
+      dg.Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+
       print("inside preform logic method");
       api.Covid19API a = api.Covid19API();
       Map data = await a.login('mornville', 'apple007');
@@ -85,18 +87,21 @@ class SlideItem extends StatelessWidget {
         Map hoiStat = await a.healthStat();
         Map temp = await a.coronaCases();
         print("Fetching successful");
-        //Checking if the user is Admin or employee
+        Navigator.pop(context);
 
         Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
           'total':temp['info'], 'hoiStat':hoiStat['info'],
         });
       } else {
-        dg.showDialogBox(context, 'Make sure you are connected to the internet.');
+        Navigator.pop(context); //close the dialogue
+        dg.showDialogBox(
+            context, 'Make sure you are connected to the internet.');
       }
     } catch (error) {
       print(error);
     }
   }
+
 
 
   @override
@@ -127,12 +132,12 @@ class SlideItem extends StatelessWidget {
            ),
          ),
           Material(
-            elevation: 5.0,
+            elevation: 1.0,
             borderRadius: BorderRadius.circular(40.0),
             color: Color.fromRGBO(85, 85, 85, .7),
             child: MaterialButton(
-              minWidth: 150.0,
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              minWidth: 100.0,
+              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
               onPressed: () {
                 _getCorona(context);
               },
@@ -140,11 +145,12 @@ class SlideItem extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Oswald',
+                      fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w500,
                       fontSize: 18)),
             ),
           ),
+
 
         ],
       ),
@@ -191,7 +197,7 @@ class SlideItem extends StatelessWidget {
               height: 10.0,
             ),
             Padding(
-              padding: EdgeInsets.only(left:40.0, right:40.0, bottom:10.0),
+              padding: EdgeInsets.only(left:40.0, right:40.0, bottom:15.0),
               child: Text(
                 slideList[index].line1,
                 textAlign: TextAlign.center,
@@ -200,7 +206,7 @@ class SlideItem extends StatelessWidget {
             ),
             Icon(Icons.arrow_drop_down, color: Colors.white,),
             Padding(
-              padding: EdgeInsets.only(left:40.0, right:40.0, bottom:10.0),
+              padding: EdgeInsets.only(left:40.0, right:40.0, bottom:15.0, top:10.0),
               child: Text(
                 slideList[index].line2,
                 textAlign: TextAlign.center,
@@ -209,7 +215,7 @@ class SlideItem extends StatelessWidget {
             ),
             Icon(Icons.arrow_drop_down, color: Colors.white,),
             Padding(
-              padding: EdgeInsets.only(left:40.0, right:40.0, bottom:10.0),
+              padding: EdgeInsets.only(left:40.0, right:40.0, bottom:15.0,top:10.0),
               child: Text(
                 slideList[index].line3,
                 textAlign: TextAlign.center,
@@ -220,12 +226,12 @@ class SlideItem extends StatelessWidget {
           ],
         ),
           Material(
-            elevation: 5.0,
+            elevation: 1.0,
             borderRadius: BorderRadius.circular(40.0),
             color: Color.fromRGBO(85, 85, 85, .7),
             child: MaterialButton(
-              minWidth: 150.0,
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              minWidth: 100.0,
+              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
               onPressed: () {
                 _getCorona(context);
               },
@@ -233,7 +239,7 @@ class SlideItem extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Oswald',
+                      fontFamily: 'OpenSans',
                       fontWeight: FontWeight.w500,
                       fontSize: 18)),
             ),

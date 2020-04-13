@@ -31,13 +31,13 @@ class Dialogs {
               onWillPop: () async => false,
               child: SimpleDialog(
                   key: key,
-                  backgroundColor: Colors.black54,
+                  backgroundColor: Colors.black,
                   children: <Widget>[
                     Center(
                       child: Column(children: [
-                        CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                        ),
+                       Image.asset('assets/wait.gif',
+                       height: 50.0,
+                       width: 50.0,),
                         SizedBox(
                           height: 10,
                         ),
