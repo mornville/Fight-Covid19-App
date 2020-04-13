@@ -158,7 +158,7 @@ class _NewsState extends State<News> {
           elevation: 4.0,
           icon: Icon(Icons.edit_location),
           label: Text(
-            'Report Health',
+            'Record My Health',
             style: TextStyle(fontFamily: 'OpenSans', letterSpacing: 0.0),
           ),
           onPressed: () {

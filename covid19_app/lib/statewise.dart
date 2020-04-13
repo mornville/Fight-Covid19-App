@@ -187,7 +187,7 @@ void initState(){
                   ),
                 ],
               ),
-            ],
+            ] ,
           ),
           trailing: IconButton(
               icon:Icon(Icons.arrow_forward, color: Colors.blue)

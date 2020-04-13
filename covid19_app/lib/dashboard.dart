@@ -267,7 +267,7 @@ class _DashboardState extends State<Dashboard> {
           elevation: 4.0,
           icon: Icon(Icons.edit_location),
           label: Text(
-            'Report Health',
+            'Record My Health',
             style: TextStyle(fontFamily: 'OpenSans', letterSpacing: 0.0),
           ),
           onPressed: () {
@@ -390,7 +390,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Expanded(
                       child: CardInfo(
-                          'Total Deceased',
+                          'Deceased',
                           coronaCases['deaths'].toString(),
                           'assets/tombstone.png',
                           coronaCases['deltadeaths'],
@@ -417,7 +417,7 @@ class _DashboardState extends State<Dashboard> {
                         elevation: 10.0,
                         color: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.only(left:4.0, right:4.0, top:8.0, bottom:8.0),
                           child: CircularPercentIndicator(
                             radius: 120.0,
                             lineWidth:8.0,
