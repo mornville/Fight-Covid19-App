@@ -145,24 +145,33 @@ class _ReportHealthState extends State<ReportHealth> {
   Position _currentPosition;
 
   _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    try {
+      final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      if (this.mounted) {
-        setState(() {
-          _currentPosition = position;
-          _lat = _currentPosition.latitude.toString();
-          _controllerLat.text = _lat;
-          _long = _currentPosition.longitude.toString();
-          _controllerLong.text = _long;
-          print(_currentPosition);
-        });
-      }
-    }).catchError((e) {
-      print(e);
-    });
+      dg.Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      print("Getting location");
+      geolocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        if (this.mounted) {
+          setState(() {
+            _currentPosition = position;
+            _lat = _currentPosition.latitude.toString();
+            _controllerLat.text = _lat;
+            _long = _currentPosition.longitude.toString();
+            _controllerLong.text = _long;
+            print(_currentPosition);
+            Navigator.pop(context);
+          });
+        }
+      }).catchError((e) {
+        print(e);
+      });
+    } catch (error) {
+      print(error);
+    }
+
+
   }
 
   void initState() {
@@ -204,25 +213,34 @@ class _ReportHealthState extends State<ReportHealth> {
         _showDialog('Enter a valid age');
         return;
       }
+      Map error, data, hoiStat, temp;
+
       Map login = await a.login('mornville', 'apple007');
-      Map aa = await a.getUniqueId();
-      Map data = await a.healthEntry(
-          age: int.parse(_age),
-          latitude: _lat,
-          longitude: _long,
-          self_quarantine: selfQuarantine,
-          fever: fever,
-          difficult_breathing: difficultBreathing,
-          unique_id: aa['info']['id'],
-          cough: cough,
-          gender: _gender);
-      final error = data['info'];
+      if(login['status'] == 'success'){
+        Map aa = await a.getUniqueId();
+       hoiStat = await a.healthStat();
+       temp = await a.coronaCases();
+         data = await a.healthEntry(
+            age: int.parse(_age),
+            latitude: _lat,
+            longitude: _long,
+            self_quarantine: selfQuarantine,
+            fever: fever,
+            difficult_breathing: difficultBreathing,
+            unique_id: aa['info']['id'],
+            cough: cough,
+            gender: _gender);
+        error = data['info'];
+
+      }
 
       if (data['status'] == 'success') {
         print("Submission successful");
         //Checking if the user is Admin or employee
         Navigator.pop(context); //close the dialogue
-Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, '/dashboard', arguments: {
+          'total':temp['info'], 'hoiStat':hoiStat['info'],
+        });
       } else {
         print("Unable to Submit Data.");
         Navigator.pop(context); //close the dialogue
