@@ -248,7 +248,9 @@ class Covid19API {
 
   // Create Health Entry
   Future<Map> healthEntry(
-      {int age,
+      {
+
+        int age,
       String gender,
       bool fever,
       bool cough,
@@ -267,6 +269,7 @@ class Covid19API {
       if (gender != null) {
         args.addAll({"gender": gender});
       }
+
 
       if (fever != null) {
         args.addAll({"fever": fever.toString()});
@@ -295,7 +298,9 @@ class Covid19API {
 
       var resp = await client.post("$SERVER_URI/api/healthentry/",
           headers: {"Authorization": "Token ${this.token}"}, body: args);
+      print(resp.body);
       Map data = jsonDecode(resp.body);
+      print(resp.body);
       if (data.containsKey("fever") &&
           data.containsKey("cough") &&
           data.containsKey("difficult_breathing") &&
@@ -335,20 +340,17 @@ class Covid19API {
       return {"status": "failed", "info": "$e"};
     }
   }
-  Future<Map> check() async {
-    String url ="https://coronavirus-monitor.p.rapidapi.com/coronavirus/random_masks_usage_instructions.php";
+  Future<Map> getUniqueId() async {
     try {
-      var resp = await client.get("$url?format=json",
-          headers: {
-            'x-rapidapi-host': "coronavirus-monitor.p.rapidapi.com",
-            'x-rapidapi-key': "ced12735c5msha6e7fa72eec9ee3p1213dcjsn4629062473d7"
-          });
-      return {"status": "success", "info": resp.body};
+      var resp = await client.get("$SERVER_URI/maps/generate_unique_key?format=json",
+          headers: {"Authorization": "Token ${this.token}"});
+      return {"status": "success", "info": jsonDecode(resp.body)};
     } catch (e) {
       print("Unable to parse response: $e");
       return {"status": "failed", "info": "$e"};
     }
   }
+
 
   // Get News
 
@@ -383,9 +385,14 @@ class Covid19API {
 Future<void> main() async {
   Covid19API a = Covid19API();
 
-List d= List();
+
 
 Map b = await a.login('mornville', 'apple007');
+Map aa = await a.getUniqueId();
+print(aa['info']['id']);
+Map data = await a.healthEntry(age: 19, latitude: '12.22333', longitude: '11.22122', self_quarantine: false, fever: false, difficult_breathing: false, unique_id:'990', cough: false, gender: 'F');
+
+print(data);
 //  Map data =  await a.getStateData();
 //  String state = 'Bihar';
 //  List districts = data['info'][state]['districtData'].keys.toList();

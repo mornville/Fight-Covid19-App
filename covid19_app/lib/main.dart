@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/statewise' : (context) => st.StateWise(),
         '/gettingStarted': (context) => gt.GettingStartedScreen(),
         '/districtData' : (context) => dw.DistrictWise(),
+        '/landing': (context) => fs.LandingScreen(),
       },
     );
   }
